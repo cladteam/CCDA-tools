@@ -1,0 +1,55 @@
+name: tools
+run-name: ${{ github.actor }} is testing tools
+on: [push, workflow_dispatch]
+jobs:
+    Run-snoopers:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Check out repository code
+            uses: actions/checkout@v4
+            with:
+              ref: main
+          - name: Check out data
+            run: |
+              eval $(ssh-agent -s)
+              echo "${{ secrets.GH_WF }}" | ssh-add -
+              ssh -T git@github.com   || true
+              git clone git@github.com:chrisroederucdenver/CCDA-data.git
+          - name:  Get vocabulary data from private repo
+            shell: bash
+            run: |
+              eval $(ssh-agent -s)
+              echo "${{ secrets.GH_WF }}" | ssh-add -
+              ssh -T git@github.com   || true
+              git clone git@github.com:chrisroederucdenver/CCDA-tools.git
+              mv CCDA_OMOP_Private ref_data
+          - name: housekeeping,  change directory to prototype_2
+            shell: bash
+            run: |
+                ln -s CCDA-data/resources .
+                mkdir output
+          - name: Run Header Snooper
+            run: |
+                python3 header_snooper.py -f  resources/CCDA_CCD_b1_Ambulatory_v2.xml  > header_snooper.out
+          - name: compare header snooper
+            run: |
+                diff tools_correct_output/header_snooper.out header_snooper.out
+          - name: Run Section Snooper
+            run: |
+                python3 section_snooper.py -f  ../resources/CCDA_CCD_b1_Ambulatory_v2.xml  > section_snooper.out
+          - name: compare header snooper
+            run: |
+                diff tools_correct_output/section_snooper.out section_snooper.out
+          - name: Run Section Code Snooper
+            run: |
+                python3 section_code_snooper.py -f  ../resources/CCDA_CCD_b1_Ambulatory_v2.xml > section_code_snooper.out
+          - name: compare section code snooper
+            run: |
+                diff tools_correct_output/section_code_snooper.out section_code_snooper.out
+          - name: Run Header Code Snooper
+            run: |
+                python3 header_code_snooper.py -f  ../resources/CCDA_CCD_b1_Ambulatory_v2.xml > header_code_snooper.out
+          - name: compare header code snooper
+            run: |
+                diff tools_correct_output/header_code_snooper.out header_code_snooper.out
+

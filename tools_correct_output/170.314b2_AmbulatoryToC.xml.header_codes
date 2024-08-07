@@ -1,0 +1,6 @@
+documentationOf/serviceEvent,2.16.840.1.113883.6.101,207R00000X
+documentationOf/serviceEvent,2.16.840.1.113883.6.101,163W00000X
+documentationOf/serviceEvent/performer/assignedEntity,2.16.840.1.113883.6.101,207R00000X
+documentationOf/serviceEvent/performer/assignedEntity,2.16.840.1.113883.6.101,163W00000X
+componentOf/encompassingEncounter,2.16.840.1.113883.6.101,207R00000X
+componentOf/encompassingEncounter,2.16.840.1.113883.6.101,163W00000X

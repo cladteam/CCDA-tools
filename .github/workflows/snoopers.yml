@@ -20,28 +20,9 @@ jobs:
             run: |
                 ln -s CCDA-data/resources .
                 mkdir output
-          - name: Run Header Snooper
-            run: |
-                python3 header_snooper.py -f  resources/CCDA_CCD_b1_Ambulatory_v2.xml  > header_snooper.out
-          - name: compare header snooper
-            run: |
-                diff tools_correct_output/header_snooper.out header_snooper.out
-          - name: Run Section Snooper
-            run: |
-                python3 section_snooper.py -f  ../resources/CCDA_CCD_b1_Ambulatory_v2.xml  > section_snooper.out
-          - name: compare header snooper
-            run: |
-                diff tools_correct_output/section_snooper.out section_snooper.out
-          - name: Run Section Code Snooper
+          - name: Run Code Snoopers
             run: |
                 python3 section_code_snooper.py -f  ../resources/CCDA_CCD_b1_Ambulatory_v2.xml > section_code_snooper.out
-          - name: compare section code snooper
-            run: |
-                diff tools_correct_output/section_code_snooper.out section_code_snooper.out
-          - name: Run Header Code Snooper
-            run: |
                 python3 header_code_snooper.py -f  ../resources/CCDA_CCD_b1_Ambulatory_v2.xml > header_code_snooper.out
-          - name: compare header code snooper
-            run: |
-                diff tools_correct_output/header_code_snooper.out header_code_snooper.out
+                bin/compare_codes.sh
 

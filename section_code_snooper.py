@@ -4,6 +4,8 @@
     section_code_snooper - driven by a list of sections and their template IDs,
        this code looks for codes found in such a section and lists them.
 
+    - detail goes to a log file in a logs directory
+    - summary gets printed to stdout
 """
 
 import argparse
@@ -101,7 +103,7 @@ section_metadata = {
 
 def scan_section(base_name, section_name, section_element):
     i=0
-    output_filename = f"{base_name}_{section_name}.log"
+    output_filename = f"output/{base_name}_{section_name}.section_codes"
     with  open(output_filename, 'w', encoding="utf-8") as f:
         for section_code_element in section_element.findall('.//code', ns):
             i += 1
@@ -115,17 +117,9 @@ def scan_section(base_name, section_name, section_element):
                 code = section_code_element.attrib['code']
             if 'codeSystem' in section_code_element.attrib:
                 code_system = section_code_element.attrib['codeSystem']
-            #if codeType == '':
-            #    if section_code_system in oid_map:
-            #        vocab = oid_map[section_code_system][0]
-            #        #section_type = details[2]
-            #        #details = VocabSpark.lookup_omop_details(spark, vocab, section_code)
-            #section_type=""
-            #section_code=""
-            #section_codeSystem=""
-            #section_codeType=""
-            f.write(f"{codeSystem} {code} {display_name} \n")
+            f.write(f"{section_name},{code_system},{code},{display_name}\n")
     return i
+
 
 def scan_file(filename):
     base_name = os.path.basename(filename)
@@ -141,30 +135,6 @@ def scan_file(filename):
                 total_n += n
         print(f"FILE: {base_name}  SECTION: {section_name} {total_n} ")
     
-    
-#        print(f"SECTION type:\"{section_type}\" code:\"{section_code}\" ", end='')
-#        section_code = section_code_element.attrib['code']
-#        if section_code is not None and section_code in section_metadata:
-#            print("")
-#            for entity_path in section_metadata[section_code]:
-#                print(f"  MD section code: \"{section_code}\" path: \"{entity_path}\" ")
-#                for entity in section_element.findall(entity_path, ns):
-#                    print((f"    type:\"{section_type}\" code:\"{section_code}\", "
-#                           f" tag:{entity.tag} attrib:{entity.attrib}"), end='')
-#    
-#                    # show_effective_time(entity)
-#    
-#                    # referenceRange
-#    
-#                    # show_id(entity)
-#    
-#                    # show_code(entity)
-#    
-#                    # show_value(entity)
-#                    print("")
-#        else:
-#            print(f"No metadata for \"{section_code}\"     ")
-
 
 if __name__ == '__main__':
 
@@ -176,5 +146,3 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     scan_file(args.filename)
-    #scan_file('resources/CCDA_CCD_b1_Ambulatory_v2.xml')
-    # scan_file('resources/CCDA_CCD_b1_InPatient_v2.xml')

@@ -21,7 +21,8 @@ def dump_file(filename):
     tree = ET.parse(args.filename)
     for element_path in header_elements:
         for element in tree.findall(f"{element_path}//code", ns):
-            print(f"{element_path}  {element.attrib}")
+            attributes = element.attrib
+            print(f"{element_path},{element.attrib['codeSystem']},{element.attrib['code']}")
 
 
 if __name__ == '__main__':

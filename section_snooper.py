@@ -15,20 +15,6 @@ from vocab_map_file import oid_map
 #from util import spark_util
 #from util.vocab_spark import VocabSpark
 
-# INPUT_FILENAME = '../resources/CCDA_CCD_b1_InPatient_v2.xml'
-INPUT_FILENAME = '../resources/CCDA_CCD_b1_Ambulatory_v2.xml'
-#spark_util_object = spark_util.SparkUtil()
-#spark = spark_util_object.get_spark()
-
-parser = argparse.ArgumentParser(
-    prog='CCDA - OMOP Code Snooper',
-    description="finds all code elements and shows what concepts the represent",
-    epilog='epilog?')
-parser.add_argument('-f', '--filename', default=INPUT_FILENAME,
-                    help="filename to parse")
-args = parser.parse_args()
-
-tree = ET.parse(INPUT_FILENAME)
 
 SECTION_PATH = "./component/structuredBody/component/section"
 SECTION_CODE = "./code"
@@ -50,6 +36,7 @@ SECTION_CODE = "./code"
 # }
 
 subs_admin_prefix = './entry/act/entryRelationship/substanceAdministration'
+
 section_metadata = {
     '48765-2': {  # ALLERGIES  (Dx of allergy)
         './entry/': [],
@@ -104,49 +91,72 @@ section_metadata = {
     },
 }
 
+if __name__ == '__main__':
 
-section_elements = tree.findall(SECTION_PATH, ns)
-print("\n\n")
+    parser = argparse.ArgumentParser(
+        prog='CCDA - OMOP Code Snooper',
+        description="finds all code elements and shows what concepts the represent",
+        epilog='epilog?')
+    parser.add_argument('-f', '--filename', help="filename to parse")
+    parser.add_argument('level', choices=['top', 'section', 'element', 'detail' ])
+    args = parser.parse_args()
+    tree = ET.parse(args.filename)
 
-for section_element in section_elements:
+    # SECTION_PATH = "./component/structuredBody/component/section"
+    section_elements = tree.findall(SECTION_PATH, ns)
+    print("\n\n")
+   
+    if args.level == 'section' or args.level == 'element' or args.level == 'detail': 
+        for section_element in section_elements:
+        
+            section_type = ''
+            section_code = ''
+            section_code_system = ''
+            # SECTION_CODE = "./code"
+            # section_code_element = section_element.find(SECTION_CODE, ns)   # just a find doesn't work
+            for section_code_element in section_element.findall("./code", ns):
+                if 'displayName' in section_code_element.attrib:
+                    section_type = section_code_element.attrib['displayName']
+                if 'code' in section_code_element.attrib:
+                    section_code = section_code_element.attrib['code']
+                if 'codeSystem' in section_code_element.attrib:
+                    section_code_system = section_code_element.attrib['codeSystem']
+                if section_type == '':
+                    if section_code_system in oid_map:
+                        vocab = oid_map[section_code_system][0]
+                        #details = VocabSpark.lookup_omop_details(spark, vocab, section_code)
+                        #if details is not None:
+                        #    section_type = details[2]
 
-    section_type = ''
-    section_code = ''
-    section_code_system = ''
-    # section_code_element = section_element.find(SECTION_CODE, ns)   # just a find doesn't work
-    for section_code_element in section_element.findall(SECTION_CODE, ns):
-        if 'displayName' in section_code_element.attrib:
-            section_type = section_code_element.attrib['displayName']
-        if 'code' in section_code_element.attrib:
+            section_template_id = ''
+            section_count=0
+            for section_template_id_element in section_element.findall("./templateId", ns):
+                section_count+=1
+                if 'root' in section_template_id_element.attrib:
+                    section_template_id = section_template_id_element.attrib['root']
+
+        
+            print(f"SECTION templateId:\"{section_template_id}\" count:{section_count}  type:\"{section_type}\" code:\"{section_code}\" ", end='')
             section_code = section_code_element.attrib['code']
-        if 'codeSystem' in section_code_element.attrib:
-            section_code_system = section_code_element.attrib['codeSystem']
-        if section_type == '':
-            if section_code_system in oid_map:
-                vocab = oid_map[section_code_system][0]
-                #details = VocabSpark.lookup_omop_details(spark, vocab, section_code)
-                #if details is not None:
-                #    section_type = details[2]
-
-    print(f"SECTION type:\"{section_type}\" code:\"{section_code}\" ", end='')
-    section_code = section_code_element.attrib['code']
-    if section_code is not None and section_code in section_metadata:
-        print("")
-        for entity_path in section_metadata[section_code]:
-            print(f"  MD section code: \"{section_code}\" path: \"{entity_path}\" ")
-            for entity in section_element.findall(entity_path, ns):
-                print((f"    type:\"{section_type}\" code:\"{section_code}\", "
-                       f" tag:{entity.tag} attrib:{entity.attrib}"), end='')
-
-                # show_effective_time(entity)
-
-                # referenceRange
-
-                # show_id(entity)
-
-                # show_code(entity)
-
-                # show_value(entity)
+            if section_code is not None and section_code in section_metadata:
                 print("")
-    else:
-        print(f"No metadata for \"{section_code}\"     ")
+                if args.level == 'element' or args.level == 'detail': 
+                    for entity_path in section_metadata[section_code]:
+                        print(f"  MD section code: \"{section_code}\" path: \"{entity_path}\" ")
+                        if args.level == 'detail': 
+                            for entity in section_element.findall(entity_path, ns):
+                                print((f"    type:\"{section_type}\" code:\"{section_code}\", "
+                                       f" tag:{entity.tag} attrib:{entity.attrib}"), end='')
+                
+                                # show_effective_time(entity)
+                
+                                # referenceRange
+                
+                                # show_id(entity)
+                
+                                # show_code(entity)
+                
+                                # show_value(entity)
+                                print("")
+            else:
+                print(f"No metadata for \"{section_code}\"     ")

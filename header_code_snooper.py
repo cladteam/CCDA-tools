@@ -3,6 +3,8 @@
     header_code_snooper -  finds and outputs code elements found under certain header elements
 
 """
+import re
+import os
 import argparse
 import xml.etree.ElementTree as ET  # https://docs.python.org/3/library/xml.etree.elementtree.html
 from xml_ns import ns
@@ -18,11 +20,14 @@ header_elements = [
 
 
 def dump_file(filename):
-    tree = ET.parse(args.filename)
-    for element_path in header_elements:
-        for element in tree.findall(f"{element_path}//code", ns):
-            attributes = element.attrib
-            print(f"{element_path},{element.attrib['codeSystem']},{element.attrib['code']}")
+    out_filename = re.sub("\s", "_", os.path.basename(filename) )
+    output_filename = f"output/{out_filename}_.header_codes"
+    with  open(output_filename, 'w', encoding="utf-8") as f:
+        tree = ET.parse(args.filename)
+        for element_path in header_elements:
+            for element in tree.findall(f"{element_path}//code", ns):
+                attributes = element.attrib
+                print(f"{element_path},{element.attrib['codeSystem']},{element.attrib['code']}")
 
 
 if __name__ == '__main__':

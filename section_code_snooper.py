@@ -10,12 +10,13 @@
 
 import argparse
 import os
+import re
 import xml.etree.ElementTree as ET  # https://docs.python.org/3/library/xml.etree.elementtree.html
 from vocab_map_file import oid_map
 from xml_ns import ns
 
 subs_admin_prefix = './entry/act/entryRelationship/substanceAdministration'
-
+HEADER="section,oid,concept_code,concept_name"
 
 section_metadata = {
     # Sections ...10.20.22.2.[ 1.1, 3.1, 4.1, 7.1, 14, 22, 22.1, 41 ]
@@ -103,6 +104,7 @@ section_metadata = {
 
 def scan_section(base_name, section_name, section_element):
     i=0
+    section_name = re.sub("\s", "_", section_name)
     output_filename = f"output/{base_name}_{section_name}.section_codes"
     with  open(output_filename, 'w', encoding="utf-8") as f:
         for section_code_element in section_element.findall('.//code', ns):

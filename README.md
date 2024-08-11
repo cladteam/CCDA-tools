@@ -24,4 +24,5 @@ The more general snoopers are more experimental.
     middle elements, and attributes, shows what is foudn in the header. Mostly
     involving time, assinged person, assigned entity and encompassing encounter.
 
->>>>>>> f9a48d9 (added comments and a README, added the vocab_map_file.py)
+
+- create_map_to_standard.py

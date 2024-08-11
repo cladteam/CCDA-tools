@@ -24,7 +24,7 @@ for ((i = 0; i < ${#FILES[@]}; i++)) ; do
     echo $file
     base_file=`basename $file`
     echo "$base_file"
-    ./header_code_snooper.py -f "$file"  > "output/${base_file}.header_codes"
+    ./header_code_snooper.py -f "$file"  > /dev/null
     ./section_code_snooper.py -f "$file"  > /dev/null
     echo
 done

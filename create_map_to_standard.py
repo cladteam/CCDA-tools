@@ -34,7 +34,7 @@ def main():
     args = parser.parse_args()
 
     # Step 0: get data
-    (oid_map_df, concept_df, concept_relationship_df) = read_tables()
+    (oid_map_df, concept_df, concept_relationship_df) = read_vocabulary_tables()
 
     print("READING INPUT")
     input_df = pd.read_csv(args.filename,
@@ -64,18 +64,16 @@ def main():
 
     # Step 3: map  input to OMOP standard concept_ids
     print("3. MAP to STANDARD")
-    print(list(input_w_concept_id_df))
-    print(list(concept_relationship_df))
     input_w_standard_df = input_w_concept_id_df.merge(concept_relationship_df,
                                                       left_on='concept_id',
                                                       right_on='concept_id_1')
     print(list(input_w_standard_df))
     print(len(input_w_standard_df))
-    print(input_w_standard_df)
 
 
+    input_w_standard_df.to_csv("output/standard.csv", sep=",", header=True)
 
-def read_tables():
+def read_vocabulary_tables():
     """ returns (oid_map_df, concept_df, concept_relationship_df)
     """
     print("READING OID MAP")
@@ -113,8 +111,7 @@ def read_tables():
     print(f"....have concept_df {len(concept_df)}  {list(concept_df)}")
 
     print("READING CONCEPT_RELATIONSHIP.csv")
-    #concept_relationship_df = pd.read_csv("../CCDA_OMOP_Private/CONCEPT_RELATIONSHIP.csv",
-    concept_relationship_df = pd.read_csv("../CCDA_OMOP_Private/CONCEPT_RELATIONSHIP_100000.csv",
+    concept_relationship_df = pd.read_csv("../CCDA_OMOP_Private/CONCEPT_RELATIONSHIP.csv",
                              engine='c',
                              header=0,
                              # index_col=0,

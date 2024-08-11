@@ -26,3 +26,15 @@ The more general snoopers are more experimental.
 
 
 - create_map_to_standard.py
+    Takes an OID map, the OMOP concept and concept relationship tables and 
+    produces a table suitable for mapping from (OID , concept_code) to a 
+    standard concept_id.
+
+    The OMOP vocabulary tables  are in the CCDA_OMOP_Private repository.
+    The OID map is in the CCDA-data repository.
+
+    The  output has a zillion columns. We need concept_id and domain_id for sure.
+    section is useful for considering the domain_id routing issue: what  CCDA sections
+    produce data for which OMOP domains.
+
+    TODO: this code so far doesn't deal with dates or the  invalid_reason column.

@@ -28,7 +28,7 @@ section_metadata = {
 	'sub_elements' :  ['encounter']
     },
 
-    'Medications': { 
+    'Medications': {
         'loinc_code':'10160-0',
         'root' : [ "2.16.840.1.113883.10.20.22.2.1.1",  "2.16.840.1.113883.10.20.22.2.1"],
         'element' : "./entry/substanceAdministration/",
@@ -42,7 +42,7 @@ section_metadata = {
     'Hospital Discharge': {
         'loinc_code':'10183-2',
         'root' : ["2.16.840.1.113883.10.20.22.2.41"],
-        'element' : "./entry/act/", 
+        'element' : "./entry/act/",
         'sub_elements' : ['id', 'code', 'effectiveTime',
                           'entryRelationship/substanceAdministration']
         #(subs_admin_prefix + "/consumable/manufacturedProduct/manufacturedMaterial"): [],
@@ -50,7 +50,7 @@ section_metadata = {
         #(subs_admin_prefix + "/performer/assignedEntity/representedOrganization"): []
     },
 
-    'Procedures': { 
+    'Procedures': {
         'loinc_code' : '47519-4',
 	'root' : ["2.16.840.1.113883.10.20.22.2.7.1"],
         'element' : "./entry/procedure",
@@ -66,10 +66,10 @@ section_metadata = {
     # (ToDo these observatoins appear in multiple places?
 
     'Vital Signs':  {
-        'loinc_code' : '8716-3', 
+        'loinc_code' : '8716-3',
         'root' : [ "2.16.840.1.113883.10.20.22.2.4.1", "2.16.840.1.113883.10.20.22.2.4" ],
         'element' : "./entry/organizer/component/observation",
-        'sub_elements' : ['observation']  
+        'sub_elements' : ['observation']
     },
 
     # Sections Out of Scope 2.16.840.1.113883.10.20.22.2.[2, 2.1, 5.1, 6.1, 8, 9, 10, 11, 12 ,14, 15, 17, 18, 21, 45]
@@ -137,7 +137,7 @@ def scan_file(filename):
                 n = scan_section(base_name, section_name, section_element)
                 total_n += n
         print(f"FILE: {base_name}  SECTION: {section_name} {total_n} ")
-    
+
 
 if __name__ == '__main__':
 

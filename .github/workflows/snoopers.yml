@@ -23,7 +23,7 @@ jobs:
                 mkdir snooper_output
           - name: Run Code Snoopers
             run: |
-                python3 section_code_snooper.py
-                python3 header_code_snooper.py
+                python3 section_code_snooper.py -d resources
+                python3 header_code_snooper.py -d resources
                 bin/compare_codes.sh
 

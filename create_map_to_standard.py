@@ -1,13 +1,20 @@
 #!/usr/bin/env python3
 
 """
-    This creates a table that maps from (oid, vocabulary_code) 
+    This creates a table that maps from (oid, vocabulary_code)
     to  OMOP standard concept_id, and is filtered down to just
     concepts detected by the code snoopers.
 
     For now, it's basically a test of how hard Pandas crashes under
     the load of those large OMOP vocabulary files.
     (as well as a crash-course in Pandas)
+
+    Creates files as output:
+    -  map_to_standard with (oid, concept_code, concept_id, domain_id)
+    -  uber_map_to_standard.csv (section, oid, concept_code, concept_id, domain_id)
+      - the section is the source section in the collection of CCDA documents used
+        to create this mapping.
+
 """
 
 
@@ -58,9 +65,16 @@ def main():
     else:
         logger.error("Did args parse let us  down? Have neither a file, nor a directory.")
 
-    uber_df.to_csv("uber_map_to_standard.csv", sep=",", header=True)
+    uber_df.to_csv("uber_map_to_standard.csv", sep=",", header=True, index=False)
 
-    
+    # uber_df includes the section name. Remove it.
+
+    map_to_standard_df = uber_df[ ['oid', 'concept_code', 'concept_id', 'domain_id'] ]
+    map_to_standard_df = map_to_standard_df.drop_duplicates()
+    map_to_standard_df.to_csv("map_to_standard.csv", sep=",", header=True, index=False)
+
+
+
 
 
 def map_code_file(filename, oid_map_df, concept_df, concept_relationship_df):
@@ -76,9 +90,9 @@ def map_code_file(filename, oid_map_df, concept_df, concept_relationship_df):
                              )
 
     # Step 1: add vocabulary_id to input
-    ###input_df =  input_df.join(oid_map_df, on='oid', how='left') 
+    ###input_df =  input_df.join(oid_map_df, on='oid', how='left')
     # results in "You are trying to merge on object and int64 columns "
-    input_w_vocab_df =  input_df.merge(oid_map_df, on='oid', how='left') 
+    input_w_vocab_df =  input_df.merge(oid_map_df, on='oid', how='left')
 
     # Step 2: map  input to OMOP concept_ids
     input_w_concept_id_df = input_w_vocab_df.merge(concept_df, on=['vocabulary_id', 'concept_code'], how='left')
@@ -107,7 +121,7 @@ def read_vocabulary_tables():
     print("READING CONCEPT.csv")
     concept_df = pd.read_csv("../CCDA_OMOP_Private/CONCEPT.csv",
                              engine='c', header=0, sep='\t',
-                             #index_col=0, 
+                             #index_col=0,
                              on_bad_lines='warn',
                              dtype={
                                     #'concept_id': , 'Int64',

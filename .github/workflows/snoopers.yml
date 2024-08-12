@@ -20,9 +20,10 @@ jobs:
             run: |
                 ln -s CCDA-data/resources .
                 ls resources
-                mkdir snooper_output
           - name: Run Code Snoopers
             run: |
+                ls tools_correct_output
+                mkdir -p snooper_output
                 python3 section_code_snooper.py -d resources
                 python3 header_code_snooper.py -d resources
                 bin/compare_codes.sh

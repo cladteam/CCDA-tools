@@ -6,6 +6,7 @@ mapping to the output here to help see that the mapping is complete.
 The code snoopers are pretty simple. They produce a list of codeSytem OID, code pairs.
 The more general snoopers are more experimental.
 
+## Tools
 - section_code_snooper.py
     Driven by a list of sections and their template IDs,
        this code looks for codes found in such a section and lists them.
@@ -38,3 +39,14 @@ The more general snoopers are more experimental.
     produce data for which OMOP domains.
 
     TODO: this code so far doesn't deal with dates or the  invalid_reason column.
+
+## to run
+- ./section_code_snooper.py
+  - default input  is ../CCDA-data/resources
+  - default output is the snooper_input directory
+- ./header_code_snooper.py
+  - default input  is ../CCDA-data/resources
+  - default output is the snooper_input directory
+- ./create_map_to_standard.py
+  - default input is the snooper_input directory
+  - defualt output is uber_map_to_standard.csv

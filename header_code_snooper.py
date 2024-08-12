@@ -10,6 +10,7 @@ import xml.etree.ElementTree as ET  # https://docs.python.org/3/library/xml.etre
 from xml_ns import ns
 from vocab_map_file import oid_map
 
+HEADER="section,oid,concept_code,concept_name\n"
 
 header_elements = [
     'recordTarget/patientRole/patient',
@@ -19,15 +20,16 @@ header_elements = [
 ]
 
 
-def dump_file(filename):
+def scan_file(filename):
     out_filename = re.sub("\s", "_", os.path.basename(filename) )
-    output_filename = f"output/{out_filename}_.header_codes"
+    output_filename = f"snooper_output/{out_filename}_.header_codes"
     with  open(output_filename, 'w', encoding="utf-8") as f:
-        tree = ET.parse(args.filename)
+        f.write(HEADER)
+        tree = ET.parse(filename)
         for element_path in header_elements:
             for element in tree.findall(f"{element_path}//code", ns):
                 attributes = element.attrib
-                print(f"{element_path},{element.attrib['codeSystem']},{element.attrib['code']}")
+                f.write(f"{element_path},{element.attrib['codeSystem']},{element.attrib['code']},")
 
 
 if __name__ == '__main__':
@@ -36,7 +38,19 @@ if __name__ == '__main__':
         prog='CCDA - OMOP Code Snooper',
         description="finds all code elements and shows what concepts the represent",
         epilog='epilog?')
-    parser.add_argument('-f', '--filename', help="filename to parse")
+    #group = parser.add_mutually_exclusive_group(required=True)
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('-d', '--directory', help="directory of files to parse", default='../CCDA-data/resources')
+    group.add_argument('-f', '--filename', help="filename to parse")
     args = parser.parse_args()
 
-    dump_file(args.filename)
+    if args.filename is not None:
+        scan_file(args.filename)
+    elif args.directory is not None:
+        only_files = [f for f in os.listdir(args.directory) if os.path.isfile(os.path.join(args.directory, f))]
+        for file in (only_files):
+            if file.endswith(".xml"):
+            	scan_file(os.path.join(args.directory, file))
+    else:
+        logger.error("Did args parse let us  down? Have neither a file, nor a directory.")
+

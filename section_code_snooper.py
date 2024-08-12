@@ -16,7 +16,7 @@ from vocab_map_file import oid_map
 from xml_ns import ns
 
 subs_admin_prefix = './entry/act/entryRelationship/substanceAdministration'
-HEADER="section,oid,concept_code,concept_name"
+HEADER="section,oid,concept_code,concept_name\n"
 
 section_metadata = {
     # Sections ...10.20.22.2.[ 1.1, 3.1, 4.1, 7.1, 14, 22, 22.1, 41 ]
@@ -105,8 +105,9 @@ section_metadata = {
 def scan_section(base_name, section_name, section_element):
     i=0
     section_name = re.sub("\s", "_", section_name)
-    output_filename = f"output/{base_name}_{section_name}.section_codes"
+    output_filename = f"snooper_output/{base_name}_{section_name}.section_codes"
     with  open(output_filename, 'w', encoding="utf-8") as f:
+        f.write(HEADER)
         for section_code_element in section_element.findall('.//code', ns):
             i += 1
             display_name=""
@@ -144,7 +145,18 @@ if __name__ == '__main__':
         prog='CCDA - OMOP Code Snooper',
         description="finds all code elements and shows what concepts the represent",
         epilog='epilog?')
-    parser.add_argument('-f', '--filename', help="filename to parse")
+    #group = parser.add_mutually_exclusive_group(required=True)
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('-d', '--directory', help="directory of files to parse", default='../CCDA-data/resources')
+    group.add_argument('-f', '--filename', help="filename to parse")
     args = parser.parse_args()
 
-    scan_file(args.filename)
+    if args.filename is not None:
+        scan_file(args.filename)
+    elif args.directory is not None:
+        only_files = [f for f in os.listdir(args.directory) if os.path.isfile(os.path.join(args.directory, f))]
+        for file in (only_files):
+            if file.endswith(".xml"):
+            	scan_file(os.path.join(args.directory, file))
+    else:
+        logger.error("Did args parse let us  down? Have neither a file, nor a directory.")

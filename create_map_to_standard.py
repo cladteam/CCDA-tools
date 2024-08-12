@@ -14,6 +14,7 @@
 import pandas as pd
 import numpy as np
 import argparse
+import os
 
 
 def main():
@@ -30,14 +31,40 @@ def main():
         prog='create mapping table from source side OIDs and codes',
         description="finds all code elements and shows what concepts the represent",
         epilog='epilog?')
-    parser.add_argument('-f', '--filename', help="input codes filename to map", default='output/all_codes.csv')
+    args = parser.parse_args()
+    #group = parser.add_mutually_exclusive_group(required=True)
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('-d', '--directory', help="directory of files to parse", default='snooper_output')
+    group.add_argument('-f', '--filename', help="filename to parse")
     args = parser.parse_args()
 
-    # Step 0: get data
+    # get vocabularies
     (oid_map_df, concept_df, concept_relationship_df) = read_vocabulary_tables()
 
-    print("READING INPUT")
-    input_df = pd.read_csv(args.filename,
+    uber_df = None
+    if args.filename is not None:
+        uber_df = map_code_file(args.filename , oid_map_df, concept_df, concept_relationship_df)
+    elif args.directory is not None:
+        only_files = [f for f in os.listdir(args.directory) if os.path.isfile(os.path.join(args.directory, f))]
+        for file in (only_files):
+            print(f"dir: {args.directory} file:{file}")
+            file_mapped_concepts_df = map_code_file(os.path.join(args.directory,file), oid_map_df, concept_df, concept_relationship_df)
+            if uber_df is None:
+                uber_df = file_mapped_concepts_df
+            else:
+                #uber_df = uber_df.append(file_mapped_concepts_df)
+                uber_df = pd.concat([uber_df, file_mapped_concepts_df])
+
+    else:
+        logger.error("Did args parse let us  down? Have neither a file, nor a directory.")
+
+    uber_df.to_csv("uber_map_to_standard.csv", sep=",", header=True)
+
+    
+
+
+def map_code_file(filename, oid_map_df, concept_df, concept_relationship_df):
+    input_df = pd.read_csv(filename,
                              engine='c', header=0, sep=',',
                              on_bad_lines='warn',
                              dtype={
@@ -47,31 +74,24 @@ def main():
                                     'concept_name': str
                                     }
                              )
-    print(f".....input_df {len(input_df)} {list(input_df)} ")
-    #print(f".....input_df {input_df.dtypes}")
 
     # Step 1: add vocabulary_id to input
-    print("1. ADD VOCABULARY_ID")
     ###input_df =  input_df.join(oid_map_df, on='oid', how='left') 
     # results in "You are trying to merge on object and int64 columns "
     input_w_vocab_df =  input_df.merge(oid_map_df, on='oid', how='left') 
-    print(list(input_w_vocab_df))
 
     # Step 2: map  input to OMOP concept_ids
-    print("2. ADD CONCEPT_ID")
     input_w_concept_id_df = input_w_vocab_df.merge(concept_df, on=['vocabulary_id', 'concept_code'], how='left')
-    print(list(input_w_concept_id_df))
 
     # Step 3: map  input to OMOP standard concept_ids
-    print("3. MAP to STANDARD")
     input_w_standard_df = input_w_concept_id_df.merge(concept_relationship_df,
                                                       left_on='concept_id',
                                                       right_on='concept_id_1')
-    print(list(input_w_standard_df))
-    print(len(input_w_standard_df))
 
+    # Q: DO WE GET MORE THAN ONE?? TODO
+    input_w_standard_df = input_w_standard_df[ ['section', 'oid', 'concept_code', 'concept_id', 'domain_id'] ]
+    return input_w_standard_df
 
-    input_w_standard_df.to_csv("output/standard.csv", sep=",", header=True)
 
 def read_vocabulary_tables():
     """ returns (oid_map_df, concept_df, concept_relationship_df)
@@ -83,7 +103,6 @@ def read_vocabulary_tables():
                              #engine='c', header=0, index_col=0, sep=',',
                             )
     print(f"....oid_map {len(oid_map_df)}  {list(oid_map_df)} ")
-    #print(f"....oid_map {oid_map_df.dtypes}")
 
     print("READING CONCEPT.csv")
     concept_df = pd.read_csv("../CCDA_OMOP_Private/CONCEPT.csv",

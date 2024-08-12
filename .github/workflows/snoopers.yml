@@ -20,10 +20,10 @@ jobs:
             run: |
                 ln -s CCDA-data/resources .
                 ls resources
-                mkdir output
+                mkdir snooper_output
           - name: Run Code Snoopers
             run: |
-                python3 section_code_snooper.py -f  resources/CCDA_CCD_b1_Ambulatory_v2.xml > section_code_snooper.out
-                python3 header_code_snooper.py -f  resources/CCDA_CCD_b1_Ambulatory_v2.xml > header_code_snooper.out
+                python3 section_code_snooper.py
+                python3 header_code_snooper.py
                 bin/compare_codes.sh
 

@@ -1,3 +1,4 @@
+section,oid,concept_code,concept_name
 Encounters,2.16.840.1.113883.6.1,46240-8,Encounters
 Encounters,2.16.840.1.113883.6.12,99213,Office outpatient visit 15 minutes
 Encounters,2.16.840.1.113883.6.101,207R00000X,Internal Medicine

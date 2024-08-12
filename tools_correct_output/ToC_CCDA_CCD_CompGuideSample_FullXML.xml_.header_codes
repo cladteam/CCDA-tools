@@ -1,0 +1,2 @@
+section,oid,concept_code,concept_name
+documentationOf/serviceEvent,2.16.840.1.113883.6.101,207RC0000X,documentationOf/serviceEvent,2.16.840.1.113883.6.101,207QA0505X,documentationOf/serviceEvent/performer/assignedEntity,2.16.840.1.113883.6.101,207RC0000X,documentationOf/serviceEvent/performer/assignedEntity,2.16.840.1.113883.6.101,207QA0505X,componentOf/encompassingEncounter,2.16.840.1.113883.6.101,207QA0505X,componentOf/encompassingEncounter,2.16.840.1.113883.6.101,261QP2300X,

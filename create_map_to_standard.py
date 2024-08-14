@@ -101,6 +101,7 @@ def map_code_file(filename, oid_map_df, concept_df, concept_relationship_df):
     input_w_standard_df = input_w_concept_id_df.merge(concept_relationship_df,
                                                       left_on='concept_id',
                                                       right_on='concept_id_1')
+    #add where clause for standard concept or explore, we wont find a standard to standard
 
     # Q: DO WE GET MORE THAN ONE?? TODO
     input_w_standard_df = input_w_standard_df[ ['section', 'oid', 'concept_code', 'concept_id', 'domain_id'] ]

@@ -126,6 +126,8 @@ def map_code_file(filename, oid_map_df, concept_df, concept_relationship_df):
     # Output  a debug file of just this input file's mapped terms
     #input_w_standard_df.to_csv("debug_" + filename, sep=",", header=True, index=False)
 
+    #add where clause for standard concept or explore, we wont find a standard to standard
+
     # Q: DO WE GET MORE THAN ONE?? TODO
     #input_w_standard_df = input_w_standard_df[ 
     return input_w_standard_df

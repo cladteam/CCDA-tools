@@ -34,6 +34,7 @@ def main():
         oid_map should have header: oid,vocabulary_id
     """
 
+    # Get Args
     parser = argparse.ArgumentParser(
         prog='create mapping table from source side OIDs and codes',
         description="finds all code elements and shows what concepts the represent",
@@ -45,9 +46,11 @@ def main():
     group.add_argument('-f', '--filename', help="filename to parse")
     args = parser.parse_args()
 
-    # get vocabularies
+    # Get Vocabularies
     (oid_map_df, concept_df, concept_relationship_df) = read_vocabulary_tables()
 
+
+    # Get Data, collect
     uber_df = None
     if args.filename is not None:
         uber_df = map_code_file(args.filename , oid_map_df, concept_df, concept_relationship_df)
@@ -59,16 +62,16 @@ def main():
             if uber_df is None:
                 uber_df = file_mapped_concepts_df
             else:
-                #uber_df = uber_df.append(file_mapped_concepts_df)
                 uber_df = pd.concat([uber_df, file_mapped_concepts_df])
 
     else:
         logger.error("Did args parse let us  down? Have neither a file, nor a directory.")
 
+
+    # Combine Data
     uber_df.to_csv("uber_map_to_standard.csv", sep=",", header=True, index=False)
 
     # uber_df includes the section name. Remove it.
-
     map_to_standard_df = uber_df[ ['oid', 'concept_code', 'concept_id', 'domain_id'] ]
     map_to_standard_df = map_to_standard_df.drop_duplicates()
     map_to_standard_df.to_csv("map_to_standard.csv", sep=",", header=True, index=False)
@@ -78,6 +81,7 @@ def main():
 
 
 def map_code_file(filename, oid_map_df, concept_df, concept_relationship_df):
+    desired_columns = ['section', 'oid', 'concept_code', 'concept_id', 'domain_id']
     input_df = pd.read_csv(filename,
                              engine='c', header=0, sep=',',
                              on_bad_lines='warn',
@@ -97,13 +101,33 @@ def map_code_file(filename, oid_map_df, concept_df, concept_relationship_df):
     # Step 2: map  input to OMOP concept_ids
     input_w_concept_id_df = input_w_vocab_df.merge(concept_df, on=['vocabulary_id', 'concept_code'], how='left')
 
+    # Step 2.5 collect concepts that are already standard here
+    already_standard_df = input_w_concept_id_df[ input_w_concept_id_df['standard_concept'] == 'S' ]
+    already_standard_df = already_standard_df[desired_columns]
+    already_standard_df.to_csv("already_" + filename, sep=",", header=True, index=False)
+
+
     # Step 3: map  input to OMOP standard concept_ids
     input_w_standard_df = input_w_concept_id_df.merge(concept_relationship_df,
                                                       left_on='concept_id',
                                                       right_on='concept_id_1')
+    input_w_standard_df = input_w_standard_df[ ['section', 'oid',  'concept_code',  'concept_id_2'] ]  # still missing domain_id
+    input_w_standard_df.columns=['section', 'oid',  'concept_code',  'concept_id']  # still missing domain_id
+    input_w_standard_df.to_csv("debug_" + filename, sep=",", header=True, index=False)
+
+    # Step 4:  map into concept again to pick up the domain_id from concept_id_2
+    input_w_standard_df = input_w_standard_df.merge(concept_df, on='concept_id')
+    input_w_standard_df = input_w_standard_df[ ['section', 'oid',  'concept_code_x','concept_id',  'domain_id'] ] 
+    input_w_standard_df.columns=['section', 'oid',  'concept_code',  'concept_id', 'domain_id']  
+
+    # Step 5, add the already_standard_df
+    input_w_standard_df = pd.concat([input_w_standard_df,  already_standard_df])
+
+    # Output  a debug file of just this input file's mapped terms
+    #input_w_standard_df.to_csv("debug_" + filename, sep=",", header=True, index=False)
 
     # Q: DO WE GET MORE THAN ONE?? TODO
-    input_w_standard_df = input_w_standard_df[ ['section', 'oid', 'concept_code', 'concept_id', 'domain_id'] ]
+    #input_w_standard_df = input_w_standard_df[ 
     return input_w_standard_df
 
 

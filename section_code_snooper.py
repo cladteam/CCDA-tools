@@ -120,7 +120,7 @@ def scan_section(base_name, section_name, section_element):
                 code = section_code_element.attrib['code']
             if 'codeSystem' in section_code_element.attrib:
                 code_system = section_code_element.attrib['codeSystem']
-            f.write(f"{section_name},{code_system},{code},{display_name}\n")
+            f.write(f"{section_name.strip()},{code_system.strip()},{code.strip()},\"{display_name.strip()}\"\n")
     return i
 
 

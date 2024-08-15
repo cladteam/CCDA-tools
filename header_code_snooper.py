@@ -29,7 +29,7 @@ def scan_file(filename):
         for element_path in header_elements:
             for element in tree.findall(f"{element_path}//code", ns):
                 attributes = element.attrib
-                f.write(f"{element_path},{element.attrib['codeSystem']},{element.attrib['code']},")
+                f.write(f"{element_path.strip()},{element.attrib['codeSystem'].strip()},{element.attrib['code'].strip()},")
 
 
 if __name__ == '__main__':

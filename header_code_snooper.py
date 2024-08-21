@@ -27,10 +27,6 @@ def scan_file(filename):
         f.write(HEADER)
         tree = ET.parse(filename)
         for element_path in header_elements:
-            for element in tree.findall(f"{element_path}//code", ns):
-                attributes = element.attrib
-                f.write(f"{element_path},{element.attrib['codeSystem']},{element.attrib['code']},{element.attrib['displayName']}\n")
-            #snippet for finding codeSystem attributes too, all codeSystems have a code, but not all code has codeSystem, e.g. languageCode 
             for element in tree.findall(f"{element_path}//*[@codeSystem]", ns):
                 attributes = element.attrib
                 f.write(f"{element_path},{element.attrib['codeSystem']},{element.attrib['code']},{element.attrib['displayName']}\n")

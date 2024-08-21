@@ -1,0 +1,7 @@
+section,oid,concept_code,concept_name
+Vital_Signs,2.16.840.1.113883.6.1,8716-3,Vital Signs
+Vital_Signs,2.16.840.1.113883.6.1,82607-3,Clinical data [Date and Time Range]
+Vital_Signs,2.16.840.1.113883.6.96,46680005,Vital signs
+Vital_Signs,2.16.840.1.113883.6.1,8480-6,SYSTOLIC BLOOD PRESSURE
+Vital_Signs,2.16.840.1.113883.6.1,8462-4,DIASTOLIC BLOOD PRESSURE
+Vital_Signs,2.16.840.1.113883.6.1,29463-7,Body weight

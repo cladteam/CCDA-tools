@@ -1,0 +1,38 @@
+section,oid,concept_code,concept_name
+recordTarget/patientRole/patient,2.16.840.1.113883.5.1,F,Female
+recordTarget/patientRole/patient,MX-CODESET-MARITALSTATUS,S,SINGLE
+recordTarget/patientRole/patient,MX-CODESET-RELIGION,VAR,Unknown
+recordTarget/patientRole/patient,MX-CODESET-RACE,2131-1,Other Race
+recordTarget/patientRole/patient,MX-CODESET-RACE,2106-3,White
+recordTarget/patientRole/patient,HL70005,2106-3,White
+recordTarget/patientRole/patient,CHPI-RACE,UNKOW,UNKOW
+recordTarget/patientRole/patient,MX-CODESET-ETHNICGROUP,H,Hispanic or Latino
+documentationOf/serviceEvent,2.16.840.1.113883.5.88,PCP,Primary Care Physician
+documentationOf/serviceEvent,2.16.840.1.113883.5.88,ATTPHYS,Attending Clinician
+documentationOf/serviceEvent,2.16.840.1.113883.5.88,ATTPHYS,Attending Clinician
+documentationOf/serviceEvent,2.16.840.1.113883.5.88,ATTPHYS,Attending Clinician
+documentationOf/serviceEvent,2.16.840.1.113883.5.88,ATTPHYS,Attending Clinician
+documentationOf/serviceEvent,2.16.840.1.113883.5.88,ATTPHYS,Attending Clinician
+documentationOf/serviceEvent,2.16.840.1.113883.5.88,ATTPHYS,Attending Clinician
+documentationOf/serviceEvent,2.16.840.1.113883.5.88,ATTPHYS,Attending Clinician
+documentationOf/serviceEvent,2.16.840.1.113883.5.88,ATTPHYS,Attending Clinician
+documentationOf/serviceEvent,2.16.840.1.113883.5.88,ATTPHYS,Attending Clinician
+documentationOf/serviceEvent,2.16.840.1.113883.5.88,ATTPHYS,Attending Clinician
+documentationOf/serviceEvent,2.16.840.1.113883.5.88,ATTPHYS,Attending Clinician
+documentationOf/serviceEvent,2.16.840.1.113883.5.88,ATTPHYS,Attending Clinician
+documentationOf/serviceEvent,2.16.840.1.113883.5.88,ATTPHYS,Attending Clinician
+documentationOf/serviceEvent,2.16.840.1.113883.5.88,ATTPHYS,Attending Clinician
+documentationOf/serviceEvent,2.16.840.1.113883.5.88,ADMPHYS,Admitting Clinician
+documentationOf/serviceEvent,2.16.840.1.113883.5.88,ADMPHYS,Admitting Clinician
+documentationOf/serviceEvent,2.16.840.1.113883.5.88,ADMPHYS,Admitting Clinician
+documentationOf/serviceEvent,2.16.840.1.113883.5.88,ADMPHYS,Admitting Clinician
+documentationOf/serviceEvent,2.16.840.1.113883.5.88,ADMPHYS,Admitting Clinician
+documentationOf/serviceEvent,2.16.840.1.113883.5.88,ADMPHYS,Admitting Clinician
+documentationOf/serviceEvent,2.16.840.1.113883.5.88,ADMPHYS,Admitting Clinician
+documentationOf/serviceEvent,2.16.840.1.113883.5.88,ADMPHYS,Admitting Clinician
+documentationOf/serviceEvent,2.16.840.1.113883.5.88,ADMPHYS,Admitting Clinician
+documentationOf/serviceEvent,2.16.840.1.113883.5.88,ADMPHYS,Admitting Clinician
+documentationOf/serviceEvent,2.16.840.1.113883.5.88,ADMPHYS,Admitting Clinician
+documentationOf/serviceEvent,2.16.840.1.113883.5.88,ADMPHYS,Admitting Clinician
+documentationOf/serviceEvent,2.16.840.1.113883.5.88,ADMPHYS,Admitting Clinician
+documentationOf/serviceEvent,2.16.840.1.113883.5.88,ADMPHYS,Admitting Clinician

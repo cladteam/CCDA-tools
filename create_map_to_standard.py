@@ -39,21 +39,19 @@ def main():
         prog='create mapping table from source side OIDs and codes',
         description="finds all code elements and shows what concepts the represent",
         epilog='epilog?')
-    args = parser.parse_args()
-    #group = parser.add_mutually_exclusive_group(required=True)
-    group = parser.add_mutually_exclusive_group()
+    group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('-d', '--directory', help="directory of files to parse", default='snooper_output')
     group.add_argument('-f', '--filename', help="filename to parse")
     args = parser.parse_args()
 
-    # Get Vocabularies
-    (oid_map_df, concept_df, concept_relationship_df) = read_vocabulary_tables()
+    # get vocabularies
+    (oid_map_df, concept_df, concept_relationship_df,source_to_concept_df) = read_vocabulary_tables()
 
 
     # Get Data, collect
     uber_df = None
     if args.filename is not None:
-        uber_df = map_code_file(args.filename , oid_map_df, concept_df, concept_relationship_df)
+        uber_df = map_code_file(args.filename , oid_map_df, concept_df, concept_relationship_df,source_to_concept_df)
     elif args.directory is not None:
         only_files = [f for f in os.listdir(args.directory) if os.path.isfile(os.path.join(args.directory, f))]
         for file in (only_files):
@@ -67,9 +65,7 @@ def main():
     else:
         logger.error("Did args parse let us  down? Have neither a file, nor a directory.")
 
-
-    # Combine Data
-    uber_df.to_csv("uber_map_to_standard.csv", sep=",", header=True, index=False)
+    #uber_df.to_csv("uber_map_to_standard.csv", sep=",", header=True, index=False)
 
     # uber_df includes the section name. Remove it.
     map_to_standard_df = uber_df[ ['oid', 'concept_code', 'concept_id', 'domain_id'] ]
@@ -80,8 +76,7 @@ def main():
 
 
 
-def map_code_file(filename, oid_map_df, concept_df, concept_relationship_df):
-    desired_columns = ['section', 'oid', 'concept_code', 'concept_id', 'domain_id']
+def map_code_file(filename, oid_map_df, concept_df, concept_relationship_df,source_to_concept_df):
     input_df = pd.read_csv(filename,
                              engine='c', header=0, sep=',',
                              on_bad_lines='warn',
@@ -92,14 +87,32 @@ def map_code_file(filename, oid_map_df, concept_df, concept_relationship_df):
                                     'concept_name': str
                                     }
                              )
-
+    print('Step: 0')
+    print(input_df)
     # Step 1: add vocabulary_id to input
     ###input_df =  input_df.join(oid_map_df, on='oid', how='left')
     # results in "You are trying to merge on object and int64 columns "
     input_w_vocab_df =  input_df.merge(oid_map_df, on='oid', how='left')
+    print('Step 1')
+    print(input_w_vocab_df)
 
     # Step 2: map  input to OMOP concept_ids
     input_w_concept_id_df = input_w_vocab_df.merge(concept_df, on=['vocabulary_id', 'concept_code'], how='left')
+    print('Step 2')
+    print(input_w_concept_id_df)
+
+    # Step 2.5: map input to source_to_concept_map
+    print('Step 2.5')
+    input_w_source_to_concept_df = pd.merge(input_w_concept_id_df,source_to_concept_df, left_on=['vocabulary_id', 'concept_code'], right_on=['source_vocabulary_id', 'source_code'], how='left')
+
+    print(input_w_source_to_concept_df)
+    #not being fancy with a loop, just updating the concept_code with mapped concept_id and vocabulary
+    input_w_concept_id_df['vocabulary_id'] = input_w_source_to_concept_df['target_vocabulary_id'].combine_first(input_w_concept_id_df['vocabulary_id'])
+    input_w_concept_id_df['concept_id'] = input_w_source_to_concept_df['target_concept_id'].combine_first(input_w_concept_id_df['concept_id'])
+    input_w_concept_id_df = input_w_concept_id_df.merge(concept_df, on=['vocabulary_id', 'concept_id'], how='left')
+
+    print(input_w_concept_id_df)
+
 
     # Step 2.5 collect concepts that are already standard here
     already_standard_df = input_w_concept_id_df[ input_w_concept_id_df['standard_concept'] == 'S' ]
@@ -127,9 +140,13 @@ def map_code_file(filename, oid_map_df, concept_df, concept_relationship_df):
     #input_w_standard_df.to_csv("debug_" + filename, sep=",", header=True, index=False)
 
     #add where clause for standard concept or explore, we wont find a standard to standard
+    print('Step 3')
+    print(input_w_standard_df)
 
     # Q: DO WE GET MORE THAN ONE?? TODO
-    #input_w_standard_df = input_w_standard_df[ 
+    input_w_standard_df = input_w_standard_df[ ['section', 'oid', 'concept_code', 'concept_id', 'domain_id'] ]
+    print('Final')
+    print(input_w_standard_df)
     return input_w_standard_df
 
 
@@ -200,7 +217,27 @@ def read_vocabulary_tables():
     print(f".....concept_maps_to_df {len(concept_maps_to_df)} {list(concept_maps_to_df)}")
     print(concept_maps_to_df)
 
-    return (oid_map_df, concept_df, concept_maps_to_df)
+    print("SOURCE_TO_CONCEPT_MAP.csv")
+    source_to_concept_df = pd.read_csv("../CCDA_OMOP_Private/SOURCE_TO_CONCEPT_MAP.csv",
+                                 engine='c',
+                                 header=0,
+                                 # index_col=0,
+                                 sep='\t',
+                                 on_bad_lines='warn',
+                                 dtype={
+                                        'source_code': str,
+                                        'source_concept_id': np.int32 ,
+                                        'source_vocabulary_id': str ,
+                                        'source_code_description' : str,
+                                        'target_concept_id': np.int32 ,
+                                        'target_vocabulary_id': str ,
+                                        'valid_start_date' : str,
+                                        'valid_end_date' : str,
+                                        'invalid_reason': str
+                                    }
+                                       )
+    print(f"....have source_to_concept_df {len(source_to_concept_df)}  {list(source_to_concept_df)}")
+    return (oid_map_df, concept_df, concept_maps_to_df,source_to_concept_df)
 
 
 

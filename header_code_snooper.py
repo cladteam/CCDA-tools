@@ -21,7 +21,7 @@ header_elements = [
 
 
 def scan_file(filename):
-    out_filename = re.sub("\s", "_", os.path.basename(filename) )
+    out_filename = re.sub(r"\s", "_", os.path.basename(filename) )
     output_filename = f"snooper_output/{out_filename}_.header_codes"
     with  open(output_filename, 'w', encoding="utf-8") as f:
         f.write(HEADER)
@@ -30,6 +30,10 @@ def scan_file(filename):
             for element in tree.findall(f"{element_path}//code", ns):
                 attributes = element.attrib
                 f.write(f"{element_path.strip()},{element.attrib['codeSystem'].strip()},{element.attrib['code'].strip()},")
+            #snippet for finding codeSystem attributes too, all codeSystems have a code, but not all code has codeSystem, e.g. languageCode 
+            for element in tree.findall(f"{element_path}//*[@codeSystem]", ns):
+                attributes = element.attrib
+                f.write(f"{element_path},{element.attrib['codeSystem']},{element.attrib['code']},{element.attrib['displayName']}\n")
 
 
 if __name__ == '__main__':

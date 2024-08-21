@@ -1,0 +1,13 @@
+section,oid,concept_code,concept_name
+Medications,2.16.840.1.113883.6.1,10160-0,Hx of Medication use
+Medications,2.16.840.1.113883.6.88,198440,acetaminophen 500 mg oral tablet
+Medications,2.16.840.1.113883.6.101,207QA0505X,Adult Medicine
+Medications,2.16.840.1.113883.6.1,76662-6,Instructions [Text] Medication Narrative
+Medications,2.16.840.1.113883.6.1,48767-8,Annotation Comment
+Medications,2.16.840.1.113883.6.88,309090,cefTRIAXone 100 mg/ml injectable solution
+Medications,2.16.840.1.113883.6.88,,
+Medications,2.16.840.1.113883.6.1,76662-6,
+Medications,2.16.840.1.113883.6.88,731227,Aranesp 40 MCG per 0.4 ML Prefilled Syringe
+Medications,2.16.840.1.113883.6.101,207QA0505X,Adult Medicine
+Medications,2.16.840.1.113883.6.1,76662-6,
+Medications,2.16.840.1.113883.6.1,48767-8,Annotation Comment

@@ -1,0 +1,9 @@
+section,oid,concept_code,concept_name
+Encounters,2.16.840.1.113883.6.1,46240-8,History of Hospitalizations+Outpatient visits Narrative
+Encounters,2.16.840.1.113883.6.1,82607-3,Clinical data [Date and Time Range]
+Encounters,2.16.840.1.113883.6.12,99221,Initial hospital care, per day, for the evaluation and management of a patient, which requires these 3 key components: A detailed or comprehensive history; A detailed or comprehensive examination; and Medical decision making that is straightforward or of low complexity.
+Encounters,2.16.840.1.113883.6.259,1052-0,Inpatient Burn Ward
+Encounters,2.16.840.1.113883.6.96,55607006,Problem
+Encounters,2.16.840.1.113883.6.96,55607006,Problem
+Encounters,2.16.840.1.113883.6.1,29308-4,Diagnosis
+Encounters,2.16.840.1.113883.6.96,282291009,Diagnosis Interpretation

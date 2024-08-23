@@ -1,5 +1,4 @@
 # CCDA-tools
-XYXYXYX
 Tools to investigate the contents of CCDA documents
 
 This is a collection of analysis tools to be used to compare an OMOP

@@ -8,16 +8,10 @@ recordTarget/patientRole/patient,2.16.840.1.113883.5.60,ESP,Expressed spoken
 recordTarget/patientRole/patient,2.16.840.1.113883.5.61,E,Excellent
 recordTarget/patientRole/patient,2.16.840.1.113883.5.60,ESP,Expressed spoken
 recordTarget/patientRole/patient,2.16.840.1.113883.5.61,G,Good
-documentationOf/serviceEvent,2.16.840.1.113883.6.101,207R00000X,Internal Medicine
-documentationOf/serviceEvent,2.16.840.1.113883.6.101,163W00000X,Registered Nurse
 documentationOf/serviceEvent,2.16.840.1.113883.5.88,PCP,Primary Care Physician
 documentationOf/serviceEvent,2.16.840.1.113883.6.101,207R00000X,Internal Medicine
 documentationOf/serviceEvent,2.16.840.1.113883.6.101,163W00000X,Registered Nurse
 documentationOf/serviceEvent/performer/assignedEntity,2.16.840.1.113883.6.101,207R00000X,Internal Medicine
 documentationOf/serviceEvent/performer/assignedEntity,2.16.840.1.113883.6.101,163W00000X,Registered Nurse
-documentationOf/serviceEvent/performer/assignedEntity,2.16.840.1.113883.6.101,207R00000X,Internal Medicine
-documentationOf/serviceEvent/performer/assignedEntity,2.16.840.1.113883.6.101,163W00000X,Registered Nurse
-componentOf/encompassingEncounter,2.16.840.1.113883.6.101,207R00000X,Internal Medicine
-componentOf/encompassingEncounter,2.16.840.1.113883.6.101,163W00000X,Registered Nurse
 componentOf/encompassingEncounter,2.16.840.1.113883.6.101,207R00000X,Internal Medicine
 componentOf/encompassingEncounter,2.16.840.1.113883.6.101,163W00000X,Registered Nurse

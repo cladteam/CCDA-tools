@@ -1,5 +1,4 @@
 section,oid,concept_code,concept_name
-recordTarget/patientRole/patient,2.16.840.1.113883.5.111,FRND,friend
 recordTarget/patientRole/patient,2.16.840.1.113883.5.1,M,Male
 recordTarget/patientRole/patient,2.16.840.1.113883.5.2,M,Married
 recordTarget/patientRole/patient,2.16.840.1.113883.5.1076,1059,Zen Buddhism
@@ -7,8 +6,6 @@ recordTarget/patientRole/patient,2.16.840.1.113883.6.238,2106-3,White
 recordTarget/patientRole/patient,2.16.840.1.113883.6.238,2186-5,Not Hispanic or Latino
 recordTarget/patientRole/patient,2.16.840.1.113883.5.111,FRND,friend
 recordTarget/patientRole/patient,2.16.840.1.113883.5.60,ESP,Expressed spoken
-documentationOf/serviceEvent,2.16.840.1.113883.6.101,261QP2300X,Primary Care [Ambulatory Health Care Facilities\Clinic/Center]
 documentationOf/serviceEvent,2.16.840.1.113883.5.88,PCP,Primary Care Physician
 documentationOf/serviceEvent,2.16.840.1.113883.6.101,261QP2300X,Primary Care [Ambulatory Health Care Facilities\Clinic/Center]
-documentationOf/serviceEvent/performer/assignedEntity,2.16.840.1.113883.6.101,261QP2300X,Primary Care [Ambulatory Health Care Facilities\Clinic/Center]
 documentationOf/serviceEvent/performer/assignedEntity,2.16.840.1.113883.6.101,261QP2300X,Primary Care [Ambulatory Health Care Facilities\Clinic/Center]

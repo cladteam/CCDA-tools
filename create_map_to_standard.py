@@ -53,7 +53,7 @@ def main():
         only_files = [f for f in os.listdir(args.directory) if os.path.isfile(os.path.join(args.directory, f))]
         for file in (only_files):
             print(f"dir: {args.directory} file:{file}")
-            file_mapped_concepts_df = map_code_file(os.path.join(args.directory,file), oid_map_df, concept_df, concept_relationship_df)
+            file_mapped_concepts_df = map_code_file(os.path.join(args.directory,file), oid_map_df, concept_df, concept_relationship_df,source_to_concept_df)
             if uber_df is None:
                 uber_df = file_mapped_concepts_df
             else:
@@ -69,6 +69,7 @@ def main():
 
     map_to_standard_df = uber_df[ ['oid', 'concept_code', 'concept_id', 'domain_id'] ]
     map_to_standard_df = map_to_standard_df.drop_duplicates()
+    map_to_standard_df = map_to_standard_df.sort_values(by=['oid', 'concept_code'])
     map_to_standard_df.to_csv("map_to_standard.csv", sep=",", header=True, index=False)
 
 
@@ -76,6 +77,7 @@ def main():
 
 
 def map_code_file(filename, oid_map_df, concept_df, concept_relationship_df,source_to_concept_df):
+    print('Processing file:',filename)
     input_df = pd.read_csv(filename,
                              engine='c', header=0, sep=',',
                              on_bad_lines='warn',
@@ -86,8 +88,7 @@ def map_code_file(filename, oid_map_df, concept_df, concept_relationship_df,sour
                                     'concept_name': str
                                     }
                              )
-    print('Step: 0')
-    print(input_df)
+    print('Initialization: Source codes are:', input_df)
     # Step 1: add vocabulary_id to input
     ###input_df =  input_df.join(oid_map_df, on='oid', how='left')
     # results in "You are trying to merge on object and int64 columns "
@@ -108,9 +109,14 @@ def map_code_file(filename, oid_map_df, concept_df, concept_relationship_df,sour
     #not being fancy with a loop, just updating the concept_code with mapped concept_id and vocabulary
     input_w_concept_id_df['vocabulary_id'] = input_w_source_to_concept_df['target_vocabulary_id'].combine_first(input_w_concept_id_df['vocabulary_id'])
     input_w_concept_id_df['concept_id'] = input_w_source_to_concept_df['target_concept_id'].combine_first(input_w_concept_id_df['concept_id'])
-    input_w_concept_id_df = input_w_concept_id_df.merge(concept_df, on=['vocabulary_id', 'concept_id'], how='left')
+    input_w_concept_id_df = input_w_concept_id_df.merge(concept_df, on=['vocabulary_id', 'concept_id'], how='left',suffixes=('_source', '_target'))
 
-    print(input_w_concept_id_df)
+    print("Column names:", input_w_concept_id_df.columns)
+
+    # Step 2.5 collect concepts that are already standard here
+    #already_standard_df = input_w_concept_id_df[ input_w_concept_id_df['standard_concept'] == 'S' ]
+    #already_standard_df = already_standard_df[desired_columns]
+    #already_standard_df.to_csv("already_" + filename, sep=",", header=True, index=False)
 
 
     # Step 3: map  input to OMOP standard concept_ids
@@ -120,9 +126,12 @@ def map_code_file(filename, oid_map_df, concept_df, concept_relationship_df,sour
     #add where clause for standard concept or explore, we wont find a standard to standard
     print('Step 3')
     print(input_w_standard_df)
+    print("Column names:", input_w_concept_id_df.columns)
 
     # Q: DO WE GET MORE THAN ONE?? TODO
-    input_w_standard_df = input_w_standard_df[ ['section', 'oid', 'concept_code', 'concept_id', 'domain_id'] ]
+    input_w_standard_df = input_w_standard_df[ ['section', 'oid', 'concept_code_source', 'concept_id', 'domain_id_target'] ]
+    input_w_standard_df['concept_id'] = input_w_standard_df['concept_id'].astype(int)
+    input_w_standard_df = input_w_standard_df.rename(columns={'concept_code_source': 'concept_code','domain_id_target':'domain_id'})
     print('Final')
     print(input_w_standard_df)
     return input_w_standard_df

@@ -1,3 +1,3 @@
 section,oid,concept_code,concept_name
-recordTarget/patientRole/patient,2.16.840.1.113883.5.1,F,Female
-documentationOf/serviceEvent,2.16.840.1.113883.5.88,PCP,Primary Care Physician
+recordTarget/patientRole/patient,2.16.840.1.113883.5.1,F,
+documentationOf/serviceEvent,2.16.840.1.113883.5.88,PCP,

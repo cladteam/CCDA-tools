@@ -1,13 +1,13 @@
 section,oid,concept_code,concept_name
-recordTarget/patientRole/patient,2.16.840.1.113883.5.1,F,Female
-recordTarget/patientRole/patient,2.16.840.1.113883.5.2,M,Married
-recordTarget/patientRole/patient,2.16.840.1.113883.5.1076,1013,Christian (non-Catholic, non-specific)
-recordTarget/patientRole/patient,2.16.840.1.113883.6.238,2106-3,White
-recordTarget/patientRole/patient,2.16.840.1.113883.6.238,2076-8,Hawaiian or Other Pacific Islander
-recordTarget/patientRole/patient,2.16.840.1.113883.6.238,2186-5,Not Hispanic or Latino
-recordTarget/patientRole/patient,2.16.840.1.113883.1.11.19830,POWATT,Power of Attorney
-recordTarget/patientRole/patient,2.16.840.1.113883.5.60,ESP,Expressed spoken
-recordTarget/patientRole/patient,2.16.840.1.113883.5.61,G,Good
-documentationOf/serviceEvent,2.16.840.1.113883.5.88,PCP,Primary Care Provider
-documentationOf/serviceEvent,2.16.840.1.113883.6.101,207QA0505X,Adult Medicine
-documentationOf/serviceEvent/performer/assignedEntity,2.16.840.1.113883.6.101,207QA0505X,Adult Medicine
+recordTarget/patientRole/patient,2.16.840.1.113883.5.1,F,
+recordTarget/patientRole/patient,2.16.840.1.113883.5.2,M,
+recordTarget/patientRole/patient,2.16.840.1.113883.5.1076,1013,
+recordTarget/patientRole/patient,2.16.840.1.113883.6.238,2106-3,
+recordTarget/patientRole/patient,2.16.840.1.113883.6.238,2076-8,
+recordTarget/patientRole/patient,2.16.840.1.113883.6.238,2186-5,
+recordTarget/patientRole/patient,2.16.840.1.113883.1.11.19830,POWATT,
+recordTarget/patientRole/patient,2.16.840.1.113883.5.60,ESP,
+recordTarget/patientRole/patient,2.16.840.1.113883.5.61,G,
+documentationOf/serviceEvent,2.16.840.1.113883.5.88,PCP,
+documentationOf/serviceEvent,2.16.840.1.113883.6.101,207QA0505X,
+documentationOf/serviceEvent/performer/assignedEntity,2.16.840.1.113883.6.101,207QA0505X,

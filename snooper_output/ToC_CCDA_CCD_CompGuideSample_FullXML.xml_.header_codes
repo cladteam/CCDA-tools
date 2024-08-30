@@ -6,16 +6,10 @@ recordTarget/patientRole/patient,2.16.840.1.113883.6.238,2106-3,White
 recordTarget/patientRole/patient,2.16.840.1.113883.6.238,2186-5,Not Hispanic or Latino
 recordTarget/patientRole/patient,2.16.840.1.113883.5.60,ESP,Expressed spoken
 documentationOf/serviceEvent,2.16.840.1.113883.6.101,207RC0000X,Cardiovascular Disease
-documentationOf/serviceEvent,2.16.840.1.113883.6.101,207QA0505X,Adult Medicine
-documentationOf/serviceEvent,2.16.840.1.113883.6.101,207RC0000X,Cardiovascular Disease
 documentationOf/serviceEvent,2.16.840.1.113883.5.88,PCP,Primary Care Physician
 documentationOf/serviceEvent,2.16.840.1.113883.6.101,207QA0505X,Adult Medicine
 documentationOf/serviceEvent/performer/assignedEntity,2.16.840.1.113883.6.101,207RC0000X,Cardiovascular Disease
 documentationOf/serviceEvent/performer/assignedEntity,2.16.840.1.113883.6.101,207QA0505X,Adult Medicine
-documentationOf/serviceEvent/performer/assignedEntity,2.16.840.1.113883.6.101,207RC0000X,Cardiovascular Disease
-documentationOf/serviceEvent/performer/assignedEntity,2.16.840.1.113883.6.101,207QA0505X,Adult Medicine
-componentOf/encompassingEncounter,2.16.840.1.113883.6.101,207QA0505X,Adult Medicine
-componentOf/encompassingEncounter,2.16.840.1.113883.6.101,261QP2300X,Primary Care
 componentOf/encompassingEncounter,2.16.840.1.113883.6.101,207QA0505X,Adult Medicine
 componentOf/encompassingEncounter,2.16.840.1.113883.6.101,261QP2300X,Primary Care
 componentOf/encompassingEncounter,2.16.840.1.113883.6.101,261QP2300X,Primary Care

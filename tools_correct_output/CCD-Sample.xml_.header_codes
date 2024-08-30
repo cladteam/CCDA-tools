@@ -1,0 +1,9 @@
+section,oid,concept_code,concept_name
+recordTarget/patientRole/patient,2.16.840.1.113883.5.1,F,Female
+recordTarget/patientRole/patient,2.16.840.1.113883.5.2,M,Married
+recordTarget/patientRole/patient,2.16.840.1.113883.5.1076,1013,Christian (non-Catholic, non-specific)
+recordTarget/patientRole/patient,2.16.840.1.113883.6.238,2106-3,White
+recordTarget/patientRole/patient,2.16.840.1.113883.6.238,2186-5,Not Hispanic or Latino
+recordTarget/patientRole/patient,2.16.840.1.113883.5.60,ESP,Expressed spoken
+recordTarget/patientRole/patient,2.16.840.1.113883.5.61,G,Good
+documentationOf/serviceEvent,2.16.840.1.113883.5.88,ATTPHYS,attending physician

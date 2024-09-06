@@ -5,13 +5,22 @@
     involving time, assinged person, assigned entity and encompassing encounter.
 
 header_elements --> middle_elements --> element_attributes
-and sometimes middle_elements --> middle_elements
+          sometimes middle_elements --> middle_elements
 
 INNOVATION: This snooper takes on types and paths more clearly than past hacks.
             Using paths makes it easier to skip levels. Using types (symbols in
             capital letters that don't appear in the path, and only sometimes in
             the documenation as initial capital camel case) keeps path elements and
             types separate, making it easier to jump from one level to the next.
+
+NB:
+            "skip" means the path skips a levle like going directly from 
+            header to element, skipping middle.
+
+            XPath paths are in lower case. The upper case tokens here are a kind
+            of type used to break up the paths. You see them in the HL7 doc.s 
+            in bold typeface.
+
 TODO:
     - some vocabularies are not in the oid_map in util/vocab_map_file
     - need to put encounters, patients and providers into a map in order to link them
@@ -41,26 +50,26 @@ element_attributes = {  # (or sub-elements with text)
 }
 
 middle_elements = {
-    'CODE': 
-        {'skip' : None },
+    'CODE':
+        {'skip' : None }, # skip down to element level, wihtout adding to the path
     'TIME':  {
-        'low': 'LOW_TIME', 
+        'low': 'LOW_TIME',
         'high': 'HIGH_TIME'},
     'ASSIGNED_PERSON': {
         'name': 'NAME'},
     'REPRESENTED_ORGANIZATION': {
-        'id': 'ID', 
-        'name': 'TEXT', 
+        'id': 'ID',
+        'name': 'TEXT',
         'addr': 'ADDR'},
     'ASSIGNED_ENTITY': {
-        'id': 'ID', 
-        'code': 'CODE', 
+        'id': 'ID',
+        'code': 'CODE',
         'addr': 'ADDR',
         'assignedPerson': 'ASSIGNED_PERSON',
         'representedOrganization': 'REPRESENTED_ORGANIZATION'},
     'ENCOMPASSING_ENCOUNTER': {
-        'id': 'ID', 
-        'code': 'CODE', 
+        'id': 'ID',
+        'code': 'CODE',
         'effectiveTime': 'TIME',
         'responsbleParty/assignedEntity': 'ASSIGNED_ENTITY',
         'encounterParticipant/assignedEntity': 'ASSIGNED_ENTITY',
@@ -94,22 +103,27 @@ def dump_attributes(element, element_type):
         if element_type in element_attributes:
             for attr in element_attributes[element_type]:
                 if attr in element.attrib:
+                    #
                     if attr == 'root' or attr == 'codeSystem' and element.attrib[attr] in oid_map:
                         print((f"        A {re.sub(r'{.*}', '', element.tag)}.{attr}: "
                                f"{oid_map[element.attrib[attr]][0]} "
                                f"{oid_map[element.attrib[attr]][1]} "))
+                    #
                     else:
                         print((f"        B {re.sub(r'{.*}', '', element.tag)}.{attr}:"
                                f" {element.attrib[attr]} "))
                 else:
                     attr_ele = element.find(attr, ns)
+                    #
                     if attr_ele is not None:
                         print((f"        C {re.sub(r'{.*}', '', element.tag)}.{attr}:"
                                f" {attr_ele.text}"))
+                    #
                     else:
                         print(f"        D None")
     else:
         print(f"        E {re.sub(r'{.*}', '', element.tag)}.{element.text}: ")
+
 
 def dump_middle(middle_element, middle_type):
     if middle_type in middle_elements:
@@ -122,22 +136,27 @@ def dump_middle(middle_element, middle_type):
                 for ele in elements:
                     dump_attributes(ele, ele_type)
 
+
 def dump_file(filename):
-    tree = ET.parse(args.filename)
+    tree = ET.parse(filename)
     for (element_path, element_type) in header_elements.items():
         for element in tree.findall(element_path, ns):
+            print("")
             print(f"{element_path} {element_type} {re.sub(r'{.*}', '', element.tag)}")
             if element_type in middle_elements:
                 dump_middle(element, element_type)
 
 
-if __name__ == '__main__':
-
+def main():
     parser = argparse.ArgumentParser(
         prog='CCDA - OMOP Code Snooper',
         description="finds all code elements and shows what concepts the represent",
         epilog='epilog?')
-    parser.add_argument('-f', '--filename', help="filename to parse")
+    parser.add_argument('-f', '--filename', required=True, help="filename to parse")
     args = parser.parse_args()
 
     dump_file(args.filename)
+
+
+if __name__ == '__main__':
+    main()

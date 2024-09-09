@@ -20,21 +20,6 @@ SECTION_PATH = "./component/structuredBody/component/section"
 SECTION_CODE = "./code"
 # OBSERVATION_SECTION_CODE = "./code[@code=\"30954-2\"]"
 
-# UNUSED
-# entity_metadata = {  # can be recursive, hopefully not looping
-#    'observation' : [ 'id', 'code', 'effectvieTime', 'value', referenceRange/observationRange ],
-#    'procedure' : [ 'id', 'code', 'effectiveTime', 'targetSite', 'performer', 'participant']
-#    'encounter' : ['id', 'code', 'effectiveTime', 'performer/assignedEntity',
-#                   'participant/participantRole', # provider, care_site
-#                    'entryRelationship/observation', 'entryRelationship/act']
-#    'act' : [ 'id', 'code', 'entryRelationship/observation' ]
-#
-#    'performer/assignedEntity'; [ 'id', 'code'],
-#    'participant/participantRole': [ 'code', 'addr', 'telecom', 'playingEntity']
-#    'entryRelationship/observation' : see obserg
-#    'entryRelationship/act'  : see act
-# }
-
 subs_admin_prefix = './entry/act/entryRelationship/substanceAdministration'
 
 section_metadata = {
@@ -97,7 +82,7 @@ if __name__ == '__main__':
         prog='CCDA - OMOP Code Snooper',
         description="finds all code elements and shows what concepts the represent",
         epilog='epilog?')
-    parser.add_argument('-f', '--filename', help="filename to parse")
+    parser.add_argument('-f', '--filename', required=True, help="filename to parse")
     parser.add_argument('level', choices=['top', 'section', 'element', 'detail' ])
     args = parser.parse_args()
     tree = ET.parse(args.filename)
@@ -105,10 +90,10 @@ if __name__ == '__main__':
     # SECTION_PATH = "./component/structuredBody/component/section"
     section_elements = tree.findall(SECTION_PATH, ns)
     print("\n\n")
-   
-    if args.level == 'section' or args.level == 'element' or args.level == 'detail': 
+
+    if args.level == 'section' or args.level == 'element' or args.level == 'detail':
         for section_element in section_elements:
-        
+
             section_type = ''
             section_code = ''
             section_code_system = ''
@@ -135,27 +120,27 @@ if __name__ == '__main__':
                 if 'root' in section_template_id_element.attrib:
                     section_template_id = section_template_id_element.attrib['root']
 
-        
+
             print(f"SECTION templateId:\"{section_template_id}\" count:{section_count}  type:\"{section_type}\" code:\"{section_code}\" ", end='')
             section_code = section_code_element.attrib['code']
             if section_code is not None and section_code in section_metadata:
                 print("")
-                if args.level == 'element' or args.level == 'detail': 
+                if args.level == 'element' or args.level == 'detail':
                     for entity_path in section_metadata[section_code]:
                         print(f"  MD section code: \"{section_code}\" path: \"{entity_path}\" ")
-                        if args.level == 'detail': 
+                        if args.level == 'detail':
                             for entity in section_element.findall(entity_path, ns):
                                 print((f"    type:\"{section_type}\" code:\"{section_code}\", "
                                        f" tag:{entity.tag} attrib:{entity.attrib}"), end='')
-                
+
                                 # show_effective_time(entity)
-                
+
                                 # referenceRange
-                
+
                                 # show_id(entity)
-                
+
                                 # show_code(entity)
-                
+
                                 # show_value(entity)
                                 print("")
             else:

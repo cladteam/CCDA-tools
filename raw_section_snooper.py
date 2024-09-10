@@ -3,7 +3,6 @@
     raw_section_snooper - looks for ANY sections (XML elemnent tagged "section"?),
         within each type:
         - entry: ;shows template Id, concepts and names if present,
-        - entry/organizer: ;shows template Id, concepts and names if present,
         - title
         - code
         - value TBD
@@ -12,7 +11,8 @@
 
 import argparse
 import re
-import xml.etree.ElementTree as ET  # https://docs.python.org/3/library/xml.etree.elementtree.html
+#import xml.etree.ElementTree as ET  # https://docs.python.org/3/library/xml.etree.elementtree.html
+import lxml.etree as ET
 from xml_ns import ns
 from vocab_map_file import oid_map
 import vocab_maps
@@ -46,7 +46,7 @@ def snoop_for_section_tag(tree, expr, filename, concept_df):
         code_elements = section_element.findall("code", ns)
         for code_ele in code_elements:
             concept_name = get_code_name(code_ele.get('code'), code_ele.get('codeSystem'), code_ele.get('codeSystemName'), concept_df)
-            print( (f"    CODE {re.sub(r'{.*}', '', code_ele.tag)}"
+            print( (f"    SECTION-CODE {re.sub(r'{.*}', '', code_ele.tag)}"
                     f" {code_ele.get('codeSystem')} "
                     f" {code_ele.get('codeSystemName')} "
                     f" {code_ele.get('code')} {concept_name}"), end = "")
@@ -69,7 +69,7 @@ def snoop_for_section_tag(tree, expr, filename, concept_df):
             code_elements = entry_ele.findall(".//code", ns)
             for code_ele in code_elements:
                 concept_name = get_code_name(code_ele.get('code'), code_ele.get('codeSystem'), code_ele.get('codeSystemName'), concept_df)
-                print(( f"        CODE {re.sub(r'{.*}', '', code_ele.tag)}"
+                print(( f"        ENTRY-CODE {re.sub(r'{.*}', '', code_ele.tag)}"
                         f"{re.sub(r'{.*}', '', code_ele.tag)}"
                         f"{code_ele.get('codeSystem')} "
                         f"{code_ele.get('codeSystemName')} "
@@ -78,34 +78,20 @@ def snoop_for_section_tag(tree, expr, filename, concept_df):
                     print(f" {code_ele.text.strip()} ")
                 else:
                     print("")
-            value_elements = entry_ele.findall("value", ns)
+                #print(f"          CODE path:\"{re.sub(r'{.*}', '', tree.getelementpath(code_ele))}\" " )
+                print(f"          CODE path:\"{re.sub(r'{.*?}', '', tree.getelementpath(code_ele))}\" " )
+                #print(f"          CODE path:\"{tree.getelementpath(code_ele)}\" " )
+            value_elements = entry_ele.findall(".//value", ns)
             for value_ele in value_elements:
-                print( (f"        VALUE {re.sub(r'{.*}', '', value_ele.tag)}"
-                    f" {value_ele.attrib}"
-                    f" {value_ele.text} ") )
-
-
-        entry_elements = section_element.findall("entry/organizer", ns)
-        for entry_ele in entry_elements:
-            print( (f"    ENTRY {re.sub(r'{.*}', '', entry_ele.tag)}" ))
-            code_elements = entry_ele.findall(".//code", ns)
-            for code_ele in code_elements:
-                concept_name = get_code_name(code_ele.get('code'), code_ele.get('codeSystem'), code_ele.get('codeSystemName'), concept_df)
-                print(( f"        CODE {re.sub(r'{.*}', '', code_ele.tag)},"
-                        f"{re.sub(r'{.*}', '', code_ele.tag)},"
-                        f"{code_ele.get('codeSystem')},"
-                        f"{code_ele.get('codeSystemName')},"
-                        f"{code_ele.get('code')}, concept_name:\"{concept_name}\""), end="")
+                print( (f"        ENTRY-VALUE {re.sub(r'{.*}', '', value_ele.tag)}"
+                    f" {value_ele.attrib}"), end="")
                 if code_ele.text is not None:
-                    print(f" {code_ele.text.strip()} ")
+                    print(f" {value_ele.text}")
                 else:
                     print("")
-            value_elements = entry_ele.findall("value", ns)
-            for value_ele in value_elements:
-                print( (f"        VALUE {re.sub(r'{.*}', '', value_ele.tag)}"
-                    f" {value_ele.attrib}"
-                    f" {value_ele.text} ") )
-
+                #print(f"          VALUE path:\"{re.sub(r'{.*}', '', tree.getelementpath(code_ele))}\" " )
+                print(f"          VALUE path:\"{re.sub(r'{.*?}', '', tree.getelementpath(code_ele))}\" " )
+                #print(f"          VALUE path:\"{tree.getelementpath(code_ele)}\" " )
 
 
 def snoop_for_code_tag(tree, expr):

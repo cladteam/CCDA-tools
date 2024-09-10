@@ -1,4 +1,13 @@
 
+
+
+"""
+    Utility functions for reading OMOP vocabulary files:
+        concept, concept_relationship (maps-to subset), source_to_concept_map
+    Also reads the CCDA-tools local file oid.csv
+"""
+
+
 import pandas as pd
 import numpy as np
 import argparse

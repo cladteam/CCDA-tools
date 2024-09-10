@@ -105,7 +105,7 @@ section_metadata = {
 def scan_section(base_name, section_name, section_element):
     i=0
     section_name = re.sub("\s", "_", section_name)
-    output_filename = f"snooper_output/{base_name}_{section_name}.section_codes"
+    output_filename = f"snooper_output/{base_name}_{section_name}_section_codes.csv"
     with  open(output_filename, 'w', encoding="utf-8") as f:
         f.write(HEADER)
         for section_code_element in section_element.findall('.//code', ns):

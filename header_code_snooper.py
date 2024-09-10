@@ -22,7 +22,7 @@ header_elements = [
 
 def scan_file(filename):
     out_filename = re.sub(r"\s", "_", os.path.basename(filename) )
-    output_filename = f"snooper_output/{out_filename}_.header_codes"
+    output_filename = f"snooper_output/{out_filename}_header_codes.csv"
     with  open(output_filename, 'w', encoding="utf-8") as f:
         f.write(HEADER)
         tree = ET.parse(filename)

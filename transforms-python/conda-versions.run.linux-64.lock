@@ -11,7 +11,7 @@ ld_impl_linux-64=2.40=hf3520f5_7 @ linux-64
 libblas=3.9.0=23_linux64_openblas @ linux-64
 libcblas=3.9.0=23_linux64_openblas @ linux-64
 libexpat=2.6.3=h5888daf_0 @ linux-64
-libffi=3.4.2=h7f98852_5 @ linux-64
+libffi=3.4.4=h6a678d5_1 @ linux-64
 libgcc-ng=14.1.0=h69a702a_1 @ linux-64
 libgcc=14.1.0=h77fa898_1 @ linux-64
 libgfortran-ng=14.1.0=h69a702a_1 @ linux-64
@@ -22,6 +22,7 @@ liblapack=3.9.0=23_linux64_openblas @ linux-64
 libnsl=2.0.1=hd590300_0 @ linux-64
 libopenblas=0.3.27=pthreads_hac2b453_1 @ linux-64
 libsqlite=3.46.1=hadc24fc_0 @ linux-64
+libstdcxx-ng=14.1.0=h4852527_1 @ linux-64
 libstdcxx=14.1.0=hc0a3c3a_1 @ linux-64
 libuuid=2.38.1=h0b41bf4_0 @ linux-64
 libxcrypt=4.4.36=hd590300_1 @ linux-64
@@ -38,19 +39,19 @@ py4j=0.10.9.7=pyhd8ed1ab_0 @ noarch
 pyspark-src=3.5.1.16=py_0 @ noarch
 pyspark=3.5.1.16=py_0 @ noarch
 python-dateutil=2.9.0=pyhd8ed1ab_0 @ noarch
-python=3.11.9=hb806964_0_cpython @ linux-64
+python=3.11.10=hc5c86c4_0_cpython @ linux-64
 python_abi=3.11=5_cp311 @ linux-64
-pytz=2024.1=pyhd8ed1ab_0 @ noarch
+pytz=2024.2=pyhd8ed1ab_0 @ noarch
 readline=8.2=h8228510_1 @ linux-64
 setuptools=65.6.3=pyhd8ed1ab_0 @ noarch
-six=1.16.0=pyh6c4a22f_0 @ noarch
+six=1.16.0=pyhd3eb1b0_1 @ noarch
 tk=8.6.13=noxft_h4845f30_101 @ linux-64
-transforms-expectations=0.513.0=py_0 @ noarch
-transforms-verbs=0.513.0=py_0 @ noarch
+transforms-expectations=0.515.0=py_0 @ noarch
+transforms-verbs=0.515.0=py_0 @ noarch
 transforms=2.67.0=py_0 @ noarch
 tzdata=2024a=h8827d51_1 @ noarch
 wheel=0.44.0=pyhd8ed1ab_0 @ noarch
-xz=5.2.6=h166bdaf_0 @ linux-64
+xz=5.4.6=h5eee18b_1 @ linux-64
 
 [Conda lock version]
-v2 - 6ca98a46feaf0db580c4b92fd432af6cf0e8c06e73143d3ab9be6838ceb3bc10
+v2 - bb074a842ebd8910aed9d672f49592b8d3cbc1c395f703ebc440c1cb5a252be5

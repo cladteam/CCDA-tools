@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-###set -xo pipefail
 echo "starting compare"
 pwd
 ls
@@ -11,3 +10,4 @@ for file in snooper_output/*; do
     diff "snooper_output/$base_file" "tools_correct_output/$base_file"
     echo "diff status for $base_file $?"
 done
+exit 0

@@ -99,7 +99,7 @@ header_elements = {
 
 
 def dump_attributes(element, element_type):
-    if type != 'TEXT':
+    if element_type != 'TEXT':
         if element_type in element_attributes:
             for attr in element_attributes[element_type]:
                 if attr in element.attrib:
@@ -120,7 +120,7 @@ def dump_attributes(element, element_type):
                                f" {attr_ele.text}"))
                     #
                     else:
-                        print(f"        D None")
+                        print("        D None")
     else:
         print(f"        E {re.sub(r'{.*}', '', element.tag)}.{element.text}: ")
 

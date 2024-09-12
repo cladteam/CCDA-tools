@@ -9,5 +9,5 @@ for file in snooper_output/*; do
     if $(( $? gt 0 ))
     then
         echo "diff failed for $file with status $?"
-    fi"
+    fi
 done

@@ -1,10 +1,6 @@
 {
-  "parentTemplateId" : "transforms",
-  "childTemplatesByPath" : {
-    "transforms-python" : "python"
-  },
-  "parentTemplateVersion" : "9.127.0",
-  "childTemplateVersionsByPath" : {
-    "transforms-python" : "1.779.0"
-  }
+  "parentTemplateId" : "jupyter-workspaces",
+  "childTemplatesByPath" : { },
+  "parentTemplateVersion" : "0.171.0",
+  "childTemplateVersionsByPath" : { }
 }

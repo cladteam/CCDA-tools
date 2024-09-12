@@ -34,8 +34,6 @@ jobs:
           - name: list snooper_output directory
             run: |
                  ls snooper_output
-            run: |
-                bin/compare_codes.sh
           - name: Compare
             run: |
                 bin/compare_codes.sh

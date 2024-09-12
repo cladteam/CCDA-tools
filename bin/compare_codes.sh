@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eou pipefail
+set -xo pipefail
 pwd
 for file in snooper_output/*; do
     base_file=$(basename "$file")

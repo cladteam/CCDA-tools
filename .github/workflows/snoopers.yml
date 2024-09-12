@@ -28,6 +28,14 @@ jobs:
           - name: Run Header Code Snooper
             run: |
                 python3 header_code_snooper.py -d resources
+          - name: list correct directory
+            run: |
+                ls tools_correct_output
+          - name: list snooper_output directory
+            run: |
+                 ls snooper_output
+            run: |
+                bin/compare_codes.sh
           - name: Compare
             run: |
                 bin/compare_codes.sh

@@ -55,7 +55,7 @@ def snoop_for_code_tag(tree, expr, ns, concept_df, vocab_codes):
         codeSystem = section_element.attrib.get('codeSystem')
         resource = section_element.attrib.get('codeSystemName')
         src_cd_description = section_element.attrib.get('displayName')
-        templateId = section_element.attrib.get('templateId')
+        #templateId = section_element.attrib.get('templateId')
 
         # Append to vocab_codes DataFrame
         new_row = pd.DataFrame([{
@@ -66,7 +66,15 @@ def snoop_for_code_tag(tree, expr, ns, concept_df, vocab_codes):
             'src_cd_description': src_cd_description,
 
         }])
-        vocab_codes = pd.concat([vocab_codes, new_row], ignore_index=True)
+        # Concatenate the new row with the DataFrame
+        combined_df = pd.concat([vocab_codes, new_row], ignore_index=True)
+
+        # Check if the new row already exists in the DataFrame
+        if combined_df.duplicated().iloc[-1]:
+            pass
+            #print("Duplicate row exists. Skipping insertion.")
+        else:
+            vocab_codes = pd.concat([vocab_codes, new_row], ignore_index=True)
 
     return vocab_codes
 
@@ -88,9 +96,7 @@ def process_xml_file(file_path, concept_df, ns):
     global vocab_codes
 
     # Extract code elements (tag-based and attribute-based)
-    print('Snooping for Code Elements')
     vocab_codes = snoop_for_code_tag(tree, ".//code", ns, concept_df, vocab_codes)
-    print('Snooping for CodeSystems')
     vocab_codes = snoop_for_code_tag(tree, ".//*[@codeSystem]", ns, concept_df, vocab_codes)
     vocab_codes['data_source'] = 'ccda-xml'#os.path.basename(file_path)
     return vocab_codes
@@ -129,7 +135,7 @@ def main():
 
     print("Reading Vocabulary, this may take a minute...")
     # Load concept DataFrame (assuming you have this functionality available)
-    concept_df = vocab_maps.read_concept()
+    concept_df = [] #vocab_maps.read_concept()
 
     all_vocab_codes = pd.DataFrame()
 
@@ -144,11 +150,14 @@ def main():
         all_vocab_codes = process_directory(args.directory, concept_df, ns)
 
     # Clean up the DataFrame
-    all_vocab_codes_cleaned = all_vocab_codes.drop_duplicates().sort_values(by='codeSystem')
+    short_vocabs = all_vocab_codes[['src_cd','codeSystem']].drop_duplicates().sort_values(by='codeSystem')
+    #short_vocabs = all_vocab_codes.drop_duplicates().sort_values(by='codeSystem')
 
     # Output to CSV
-    all_vocab_codes_cleaned.to_csv('raw_vocab_codes.csv', index=False)
-    print(all_vocab_codes_cleaned)
+    all_vocab_codes.to_csv('raw_vocab_codes.csv', index=False)
+    short_vocabs.to_csv('short_vocab_codes.csv', index=False)
+
+    print(short_vocabs)
 
 
 if __name__ == '__main__':

@@ -7,6 +7,9 @@ from vocab_map_file import oid_map
 import vocab_maps
 import pandas as pd
 from pathlib import Path
+from foundry.transforms import Dataset
+
+# mamba install -y -q lxml
 
 
 # Global DataFrame to hold codes found
@@ -154,10 +157,23 @@ def main():
     #short_vocabs = all_vocab_codes.drop_duplicates().sort_values(by='codeSystem')
 
     # Output to CSV
-    all_vocab_codes.to_csv('raw_vocab_codes.csv', index=False)
-    short_vocabs.to_csv('short_vocab_codes.csv', index=False)
+    all_vocab_codes.to_csv('/foundry/outputs/vocab_discovered_codes_expanded.csv', index=False)
+    short_vocabs.to_csv('/foundry/outputs/vocab_discovered_codes.csv', index=False)
+    
+    vocab_discovered_codescsv = Dataset.get("vocab_discovered_codescsv")
+    vocab_discovered_codescsv.upload_file("/foundry/outputs/vocab_discovered_codes.csv")
 
-    print(short_vocabs)
+    vocab_discovered_codes_expandedcsv = Dataset.get("vocab_discovered_codes_expandedcsv")
+    vocab_discovered_codes_expandedcsv.upload_file("/foundry/outputs/vocab_discovered_codes_expanded.csv")
+
+    # Output as Dataset
+    vocab_discovered_codes_expanded = Dataset.get("vocab_discovered_codes_expanded")
+    vocab_discovered_codes_expanded.write_table(all_vocab_codes)
+    
+    vocab_discovered_codes = Dataset.get("vocab_discovered_codes")
+    vocab_discovered_codes.write_table(short_vocabs)
+
+    # print(short_vocabs)
 
 
 if __name__ == '__main__':

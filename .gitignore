@@ -127,7 +127,6 @@ dmypy.json
 cython_debug/
 
 # PyCharm
-<<<<<<< HEAD
 .idea/
 
 # pyenv

@@ -14,7 +14,7 @@ import argparse
 import os
 
 def read_oid_map():
-    oid_map_df = pd.read_csv("../CCDA-data/oid.csv", header=0,
+    oid_map_df = pd.read_csv("oid.csv", header=0,
                              on_bad_lines='warn',
                              dtype={ 'oid': str, 'vocabulary_id': str }
                              #engine='c', header=0, index_col=0, sep=',',
@@ -23,7 +23,10 @@ def read_oid_map():
 
 
 def read_concept():
-    concept_df = pd.read_csv("../CCDA_OMOP_Private/CONCEPT.csv",
+    from foundry.transforms import Dataset
+    concept_df = Dataset.get("omop_concept").read_table(format="pandas")
+    """
+    concept_df = pd.read_csv("omop_concept_files",
                              engine='c', header=0, sep='\t',
                              #index_col=0,
                              on_bad_lines='warn',
@@ -44,7 +47,7 @@ def read_concept():
                                 },
                                 usecols = [0, 1, 2, 3, 4, 5, 6, 7] # no dates for now
                              )
-
+    """
     return concept_df
 
 

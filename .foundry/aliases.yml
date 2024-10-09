@@ -1,5 +1,7 @@
 ccda_ccd_b1_ambulatory_v2:
   rid: "ri.foundry.main.dataset.240efe95-edd1-4e3f-82cf-c913ee5ec077"
+omop_concept:
+  rid: "ri.foundry.main.dataset.831ad30e-a134-41ac-8f68-def86cc8b05c"
 test_output_ds:
   rid: "ri.foundry.main.dataset.01663c58-5c5a-4fcd-953a-7f036b73586c"
 vocab_discovered_codes:

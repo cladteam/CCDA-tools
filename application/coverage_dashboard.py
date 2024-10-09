@@ -40,7 +40,7 @@ def get_encounters(root):
 app = dash.Dash(__name__)
 
 # Get list of XML files in the resources folder
-resources_folder = 'resources'
+resources_folder = '../resources'
 xml_files = [f for f in os.listdir(resources_folder) if f.endswith('.xml')]
 
 # Set initial file and parse it

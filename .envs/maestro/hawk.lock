@@ -5,24 +5,20 @@
 _libgcc_mutex=0.1=conda_forge @ 16fe1c80
 _openmp_mutex=4.5=2_gnu @ 16fe1c80
 asttokens=2.4.1=pyhd8ed1ab_0 @ c7211bb6
-aws-c-auth=0.7.31=h57bd9a3_0 @ ef1a1829
-aws-c-cal=0.7.4=hfd43aa1_1 @ ef1a1829
-aws-c-common=0.9.28=hb9d3cd8_0 @ ef1a1829
-aws-c-compression=0.2.19=h756ea98_1 @ ef1a1829
-aws-c-event-stream=0.4.3=h29ce20c_2 @ ef1a1829
-aws-c-http=0.8.10=h5e77a74_0 @ ef1a1829
-aws-c-io=0.14.18=h4e6ae90_11 @ ef1a1829
-aws-c-mqtt=0.10.7=h02abb05_0 @ ef1a1829
-aws-c-s3=0.6.6=h834ce55_0 @ ef1a1829
-aws-c-sdkutils=0.1.19=h756ea98_3 @ ef1a1829
-aws-checksums=0.1.20=h756ea98_0 @ ef1a1829
-aws-crt-cpp=0.28.3=h3e6eb3e_6 @ ef1a1829
-aws-sdk-cpp=1.11.407=h9f1560d_0 @ ef1a1829
-azure-core-cpp=1.13.0=h935415a_0 @ ef1a1829
-azure-identity-cpp=1.9.0=hd126650_0 @ ef1a1829
-azure-storage-blobs-cpp=12.13.0=h1d30c4a_0 @ ef1a1829
-azure-storage-common-cpp=12.8.0=ha3822c6_0 @ ef1a1829
-azure-storage-files-datalake-cpp=12.12.0=h0f25b8a_0 @ ef1a1829
+aws-c-auth=0.7.22=h96bc93b_2 @ 3c4a1d2c
+aws-c-cal=0.6.14=h88a6e22_1 @ 3c4a1d2c
+aws-c-common=0.9.19=h4ab18f5_0 @ 3c4a1d2c
+aws-c-compression=0.2.18=h83b837d_6 @ 3c4a1d2c
+aws-c-event-stream=0.4.2=ha47c788_12 @ 3c4a1d2c
+aws-c-http=0.8.1=h29d6fba_17 @ 3c4a1d2c
+aws-c-io=0.14.8=h21d4f22_5 @ 3c4a1d2c
+aws-c-mqtt=0.10.4=h759edc4_4 @ 3c4a1d2c
+aws-c-s3=0.5.9=h594631b_3 @ 3c4a1d2c
+aws-c-sdkutils=0.1.16=h83b837d_2 @ 3c4a1d2c
+aws-checksums=0.1.18=h83b837d_6 @ 3c4a1d2c
+aws-crt-cpp=0.26.9=he3a8b3b_0 @ 3c4a1d2c
+aws-sdk-cpp=1.11.329=hba8bd5f_3 @ 3c4a1d2c
+blinker=1.8.2=pyhd8ed1ab_0 @ 81d6167d
 brotli-python=1.1.0=py312h2ec8cdc_2 @ ef1a1829
 bzip2=1.0.8=h4bc722e_7 @ e1c11c02
 c-ares=1.33.1=heb4867d_0 @ e1c11c02
@@ -30,12 +26,16 @@ ca-certificates=2024.8.30=hbcca054_0 @ e1c11c02
 certifi=2024.8.30=pyhd8ed1ab_0 @ c7211bb6
 cffi=1.17.1=py312h06ac9bb_0 @ ef1a1829
 charset-normalizer=3.3.2=pyhd8ed1ab_0 @ c7211bb6
+click=8.1.7=unix_pyh707e725_0 @ 81d6167d
 comm=0.2.2=pyhd8ed1ab_0 @ c7211bb6
 conjure-python-client=2.8.0=pyhd8ed1ab_0 @ c7211bb6
+dash=2.18.1=pyhd8ed1ab_0 @ c7211bb6
+dash-table=5.0.0=pyhd8ed1ab_1 @ c72e1b30
 debugpy=1.8.6=py312h2ec8cdc_0 @ ef1a1829
 decorator=5.1.1=pyhd8ed1ab_0 @ fe451c34
 exceptiongroup=1.2.2=pyhd8ed1ab_0 @ c7211bb6
 executing=2.1.0=pyhd8ed1ab_0 @ c7211bb6
+flask=3.0.3=pyhd8ed1ab_0 @ 81d6167d
 foundry-data-sidecar-api=0.719.0=py_0 @ 5a011d5e
 foundry-transforms-lib-python=0.744.0=py_0 @ 5a011d5e
 gflags=2.2.2=h5888daf_1005 @ e1c11c02
@@ -43,29 +43,31 @@ glog=0.7.1=hbabe93e_0 @ e1c11c02
 h2=4.1.0=pyhd8ed1ab_0 @ fe451c34
 hpack=4.0.0=pyh9f0ad1d_0 @ fe451c34
 hyperframe=6.0.1=pyhd8ed1ab_0 @ fe451c34
-icu=75.1=he02047a_0 @ 3c4a1d2c
+icu=73.2=h59595ed_0 @ 3c4a1d2c
 idna=3.10=pyhd8ed1ab_0 @ c7211bb6
 importlib-metadata=8.5.0=pyha770c72_0 @ 81d6167d
 ipykernel=6.29.5=pyh3099207_0 @ c7211bb6
 ipython=8.28.0=pyh707e725_0 @ c7211bb6
+itsdangerous=2.2.0=pyhd8ed1ab_0 @ 81d6167d
 jedi=0.19.1=pyhd8ed1ab_0 @ c7211bb6
+jinja2=3.1.4=pyhd8ed1ab_0 @ 81d6167d
 jupyter_client=8.6.3=pyhd8ed1ab_0 @ c7211bb6
 jupyter_core=5.7.2=pyh31011fe_1 @ c7211bb6
 keyutils=1.6.1=h166bdaf_0 @ 16fe1c80
 krb5=1.21.3=h659f571_0 @ e1c11c02
 ld_impl_linux-64=2.43=h712a8e2_1 @ e1c11c02
-libabseil=20240722.0=cxx17_h5888daf_1 @ ef1a1829
-libarrow=17.0.0=h364f349_19_cpu @ ef1a1829
-libarrow-acero=17.0.0=h5888daf_19_cpu @ ef1a1829
-libarrow-dataset=17.0.0=h5888daf_19_cpu @ ef1a1829
-libarrow-substrait=17.0.0=he882d9a_19_cpu @ ef1a1829
+libabseil=20240116.2=cxx17_he02047a_1 @ 3c4a1d2c
+libarrow=16.1.0=hcb6531f_6_cpu @ 3c4a1d2c
+libarrow-acero=16.1.0=hac33072_6_cpu @ 3c4a1d2c
+libarrow-dataset=16.1.0=hac33072_6_cpu @ 3c4a1d2c
+libarrow-substrait=16.1.0=h7e0c224_6_cpu @ 3c4a1d2c
 libblas=3.9.0=24_linux64_openblas @ e1c11c02
 libbrotlicommon=1.1.0=hb9d3cd8_2 @ e1c11c02
 libbrotlidec=1.1.0=hb9d3cd8_2 @ e1c11c02
 libbrotlienc=1.1.0=hb9d3cd8_2 @ e1c11c02
 libcblas=3.9.0=24_linux64_openblas @ e1c11c02
 libcrc32c=1.1.2=h9c3ff4c_0 @ 16fe1c80
-libcurl=8.10.1=hbbe4b11_0 @ 3c4a1d2c
+libcurl=8.8.0=hca28451_1 @ 3c4a1d2c
 libedit=3.1.20230828=h5eee18b_0 @ 3c4a1d2c
 libev=4.33=hd590300_2 @ e1c11c02
 libevent=2.1.12=hf998b51_1 @ e1c11c02
@@ -77,37 +79,38 @@ libgfortran=14.1.0=h69a702a_1 @ e1c11c02
 libgfortran-ng=14.1.0=h69a702a_1 @ e1c11c02
 libgfortran5=14.1.0=hc5f4f2c_1 @ e1c11c02
 libgomp=14.1.0=h77fa898_1 @ e1c11c02
-libgoogle-cloud=2.29.0=h438788a_1 @ ef1a1829
-libgoogle-cloud-storage=2.29.0=h0121fbd_1 @ ef1a1829
-libgrpc=1.65.5=hf5c653b_0 @ ef1a1829
+libgoogle-cloud=2.24.0=h2736e30_0 @ 3c4a1d2c
+libgoogle-cloud-storage=2.24.0=h3d9a0c8_0 @ 3c4a1d2c
+libgrpc=1.62.2=h15f2491_0 @ 3c4a1d2c
 libiconv=1.17=hd590300_2 @ e1c11c02
 liblapack=3.9.0=24_linux64_openblas @ e1c11c02
 libnghttp2=1.58.0=h47da74e_1 @ e1c11c02
 libnsl=2.0.1=hd590300_0 @ e1c11c02
 libopenblas=0.3.27=pthreads_hac2b453_1 @ e1c11c02
-libparquet=17.0.0=h6bd9018_19_cpu @ ef1a1829
-libprotobuf=5.27.5=h5b01275_2 @ ef1a1829
-libre2-11=2023.09.01=hbbce691_3 @ ef1a1829
+libparquet=16.1.0=h6a7eafb_6_cpu @ 3c4a1d2c
+libprotobuf=4.25.3=h08a7969_0 @ 3c4a1d2c
+libre2-11=2023.09.01=h5a48ba9_2 @ 3c4a1d2c
 libsodium=1.0.20=h4ab18f5_0 @ e1c11c02
-libsqlite=3.46.1=hadc24fc_0 @ 3c4a1d2c
+libsqlite=3.46.0=hde9e2c9_0 @ 3c4a1d2c
 libssh2=1.11.0=h0841786_0 @ e1c11c02
 libstdcxx=14.1.0=hc0a3c3a_1 @ e1c11c02
 libstdcxx-ng=14.1.0=h4852527_1 @ e1c11c02
-libthrift=0.21.0=h0e7cc3e_0 @ ef1a1829
+libthrift=0.19.0=hb90f79a_1 @ 3c4a1d2c
 libutf8proc=2.8.0=h166bdaf_0 @ 16fe1c80
 libuuid=2.38.1=h0b41bf4_0 @ e1c11c02
 libxcrypt=4.4.36=hd590300_1 @ 3c4a1d2c
-libxml2=2.12.7=he7c6b58_4 @ 3c4a1d2c
+libxml2=2.12.7=hc051c1a_1 @ 3c4a1d2c
 libxslt=1.1.39=h76b75d6_0 @ ef1a1829
-libzlib=1.3.1=hb9d3cd8_2 @ 3c4a1d2c
-lxml=5.3.0=py312he28fd5a_1 @ ef1a1829
+libzlib=1.2.13=h4ab18f5_6 @ 3c4a1d2c
+lxml=5.2.2=py312hb90d8a5_0 @ ad241afe
 lz4-c=1.9.4=h6a678d5_1 @ 3c4a1d2c
+markupsafe=3.0.1=py312h66e93f0_0 @ ad241afe
 matplotlib-inline=0.1.7=pyhd8ed1ab_0 @ c7211bb6
 ncurses=6.5=he02047a_1 @ 3c4a1d2c
 nest-asyncio=1.6.0=pyhd8ed1ab_0 @ c7211bb6
 numpy=2.1.2=py312h58c1407_0 @ ef1a1829
 openssl=3.3.2=hb9d3cd8_0 @ e1c11c02
-orc=2.0.2=h690cf93_1 @ ef1a1829
+orc=2.0.1=h17fec99_1 @ 3c4a1d2c
 packaging=24.1=pyhd8ed1ab_0 @ c7211bb6
 pandas=2.2.3=py312hf9745cd_1 @ ef1a1829
 parso=0.8.4=pyhd8ed1ab_0 @ c7211bb6
@@ -115,37 +118,42 @@ pexpect=4.9.0=pyhd8ed1ab_0 @ c7211bb6
 pickleshare=0.7.5=py_1003 @ fe451c34
 pip=24.2=pyh8b19718_1 @ c7211bb6
 platformdirs=4.3.6=pyhd8ed1ab_0 @ c7211bb6
+plotly=5.24.1=pyhd8ed1ab_0 @ c7211bb6
 polars=1.9.0=py312hfe7c9be_0 @ ef1a1829
 prompt-toolkit=3.0.48=pyha770c72_0 @ c7211bb6
 psutil=6.0.0=py312h66e93f0_1 @ ef1a1829
 ptyprocess=0.7.0=pyhd3deb0d_0 @ fe451c34
 pure_eval=0.2.3=pyhd8ed1ab_0 @ c7211bb6
-pyarrow=17.0.0=py312h9cebb41_1 @ ef1a1829
-pyarrow-core=17.0.0=py312h9cafe31_1_cpu @ ef1a1829
+pyarrow=16.1.0=py312h9cebb41_2 @ ad241afe
+pyarrow-core=16.1.0=py312h0983c49_2_cpu @ ad241afe
 pycparser=2.22=pyhd8ed1ab_0 @ c7211bb6
 pygments=2.18.0=pyhd8ed1ab_0 @ c7211bb6
 pysocks=1.7.1=pyha2e5f31_6 @ fe451c34
-python=3.12.7=hc5c86c4_0_cpython @ ef1a1829
+python=3.12.3=hab00c5b_0_cpython @ ad241afe
 python-dateutil=2.9.0=pyhd8ed1ab_0 @ c7211bb6
 python-tzdata=2024.2=pyhd8ed1ab_0 @ c7211bb6
 python_abi=3.12=5_cp312 @ ef1a1829
 pytz=2024.1=pyhd8ed1ab_0 @ c7211bb6
 pyzmq=26.2.0=py312hbf22597_2 @ ef1a1829
-re2=2023.09.01=h77b4e00_3 @ ef1a1829
+re2=2023.09.01=h7f4b329_2 @ 3c4a1d2c
 readline=8.2=h8228510_1 @ 3c4a1d2c
 requests=2.32.3=pyhd8ed1ab_0 @ c7211bb6
-s2n=1.5.4=h1380c3d_0 @ ef1a1829
+retrying=1.3.3=pyhd8ed1ab_3 @ c7211bb6
+s2n=1.4.15=he19d79f_0 @ 3c4a1d2c
 setuptools=75.1.0=pyhd8ed1ab_0 @ c7211bb6
 six=1.16.0=pyhd3eb1b0_1 @ 605019c2
 snappy=1.2.1=ha2e4443_0 @ e1c11c02
 stack_data=0.6.2=pyhd8ed1ab_0 @ c7211bb6
+tenacity=9.0.0=pyhd8ed1ab_0 @ c7211bb6
 tk=8.6.13=noxft_h4845f30_101 @ e1c11c02
 tornado=6.4.1=py312h66e93f0_1 @ ef1a1829
 traitlets=5.14.3=pyhd8ed1ab_0 @ c7211bb6
+typing-extensions=4.12.2=hd8ed1ab_0 @ 81d6167d
 typing_extensions=4.12.2=pyha770c72_0 @ c7211bb6
 tzdata=2024b=hc8b5060_0 @ 20c61ce0
 urllib3=2.2.3=pyhd8ed1ab_0 @ c7211bb6
 wcwidth=0.2.13=pyhd8ed1ab_0 @ c7211bb6
+werkzeug=3.0.4=pyhd8ed1ab_0 @ 81d6167d
 wheel=0.44.0=pyhd8ed1ab_0 @ c7211bb6
 xz=5.4.6=h5eee18b_1 @ 3c4a1d2c
 zeromq=4.3.5=h3b0a872_6 @ ef1a1829
@@ -155,11 +163,11 @@ zstd=1.5.6=ha6fb4c9_0 @ e1c11c02
 
 [pip]
 brotli==1.1.0
+dashtable==1.4.5
 jupyter-client==8.6.3
 jupyter-core==5.7.2
 pure-eval==0.2.3
 stack-data==0.6.2
-typing-extensions==4.12.2
 
 [conda-metadata]
 16fe1c80 - linux-64 @ tar.bz2 @ ri.artifacts.repository.bundle.jupyter-default-environment
@@ -168,7 +176,9 @@ typing-extensions==4.12.2
 5a011d5e - noarch @ tar.bz2 @ ri.artifacts.repository.python-library.foundry-transforms-lib
 605019c2 - noarch @ tar.bz2 @ ri.foundry-sdk-asset-bundle.main.artifacts.repository
 81d6167d - noarch @ conda @ ri.artifacts.repository.python-library.models
+ad241afe - linux-64 @ conda @ ri.artifacts.repository.artifactory.external-conda-forge
 c7211bb6 - noarch @ conda @ ri.artifacts.repository.bundle.jupyter-default-environment
+c72e1b30 - noarch @ tar.bz2 @ ri.artifacts.repository.artifactory.external-conda-forge
 e1c11c02 - linux-64 @ conda @ ri.artifacts.repository.bundle.jupyter-default-environment
 ef1a1829 - linux-64 @ conda @ ri.stemma.main.repository.42f809ff-135a-45ce-bc46-683c2ca00426
 fe451c34 - noarch @ tar.bz2 @ ri.artifacts.repository.bundle.jupyter-default-environment
@@ -179,4 +189,4 @@ ri.foundry-sdk-asset-bundle.main.artifacts.repository
 ri.stemma.main.repository.42f809ff-135a-45ce-bc46-683c2ca00426
 
 [conda lock version]
-v3 - 225559dc74db61b4746584cf516a6a0246fc3384323be4104b7c28a87ed6347f
+v3 - 45a9962fc31e9826e258f1e46680fa0546fc3384323be4104b7c28a87ed6347f

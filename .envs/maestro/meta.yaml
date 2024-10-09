@@ -5,6 +5,8 @@ source:
   path: ../src
 requirements:
   run:
+  - dash-table
+  - dash
   - lxml
   - pandas
   - polars
@@ -12,3 +14,5 @@ requirements:
   - ipykernel
   - pip
   - foundry-transforms-lib-python
+  pip:
+  - dashtable

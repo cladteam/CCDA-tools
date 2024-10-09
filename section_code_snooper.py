@@ -11,7 +11,7 @@
 import argparse
 import os
 import re
-import xml.etree.ElementTree as ET  # https://docs.python.org/3/library/xml.etree.elementtree.html
+from lxml import etree as ET  # https://docs.python.org/3/library/xml.etree.elementtree.html
 from vocab_map_file import oid_map
 from xml_ns import ns
 
@@ -104,7 +104,7 @@ section_metadata = {
 
 def scan_section(base_name, section_name, section_element):
     i=0
-    section_name = re.sub("\s", "_", section_name)
+    section_name = re.sub(r"\s", "_", section_name)
     output_filename = f"snooper_output/{base_name}_{section_name}_section_codes.csv"
     with  open(output_filename, 'w', encoding="utf-8") as f:
         f.write(HEADER)

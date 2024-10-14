@@ -38,6 +38,22 @@ def get_encounters(root):
             'Effective Time': effective_time_element.get('value') if effective_time_element is not None and effective_time_element.get('value') is not None else 'N/A'
         }
         encounters.append(data)
+
+    # Extract encompassing encounter information
+    encompassing_encounter = root.find(".//hl7:componentOf/hl7:encompassingEncounter", namespaces=namespace)
+    if encompassing_encounter is not None:
+        id_elements = encompassing_encounter.findall('.//hl7:id', namespaces=namespace)
+        ids = [id_element.get('root') for id_element in id_elements if id_element is not None]
+        effective_time = encompassing_encounter.find('.//hl7:effectiveTime', namespaces=namespace)
+        effective_time_value = effective_time.get('value') if effective_time is not None else 'N/A'
+
+        data = {
+            'Code': 'Encompassing Encounter',
+            'Effective Time': effective_time_value,
+            'IDs': ', '.join(ids) if ids else 'N/A'
+        }
+        encounters.append(data)
+
     return pd.DataFrame(encounters)
 
 # Function to extract section and entry codes
@@ -48,11 +64,14 @@ def snoop_for_section_tag(root):
         section_data = {}
         title_element = section_element.find("hl7:title", namespaces=namespace)
         section_data['Title'] = title_element.text if title_element is not None else 'N/A'
-        code_element = section_element.find("hl7:code", namespaces=namespace)
-        if code_element is not None:
-            section_data['Code'] = code_element.get('code') if code_element is not None and code_element.get('code') is not None else 'N/A'
-            section_data['Code System'] = code_element.get('codeSystem') if code_element is not None and code_element.get('codeSystem') is not None else 'N/A'
-            section_data['Code System Name'] = code_element.get('codeSystemName') if code_element is not None and code_element.get('codeSystemName') is not None else 'N/A'
+        code_elements = section_element.findall(".//hl7:code", namespaces=namespace)
+        section_data['Total Codes'] = len(code_elements)
+        section_data['Codes List'] = ', '.join([code_element.get('code') for code_element in code_elements if code_element.get('code') is not None]) if code_elements else 'N/A'
+        if code_elements:
+            first_code_element = code_elements[0]
+            section_data['Code'] = first_code_element.get('code') if first_code_element.get('code') is not None else 'N/A'
+            section_data['Code System'] = first_code_element.get('codeSystem') if first_code_element.get('codeSystem') is not None else 'N/A'
+            section_data['Code System Name'] = first_code_element.get('codeSystemName') if first_code_element.get('codeSystemName') is not None else 'N/A'
         else:
             section_data['Code'] = 'N/A'
             section_data['Code System'] = 'N/A'

@@ -20,6 +20,12 @@ The more general snoopers are more experimental.
     vocabulary name, and code.
   - Value elements also within the entry, marked "ENTRY-VALUE",
     with attributes type, value and unit.
+    
+  TODO ideas: change the output to a table that records the Code Value elements
+  with some idea of where in the doc. they came from: doc and section. Include
+  entry if there's anything useful there.
+  Consider comparing codes discovered here with those discovered by the less
+  structured vocab_snooper.
   
   
 - vocab_snooper.py 

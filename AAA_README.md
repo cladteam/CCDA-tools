@@ -3,10 +3,52 @@ Tools to investigate the contents of CCDA documents
 
 This is a collection of analysis tools to be used to compare an OMOP
 mapping to the output here to help see that the mapping is complete.
-The code snoopers are pretty simple. They produce a list of codeSytem OID, code pairs.
+The code snoopers are pretty simple. They produce a list of 
+codeSytem and OID code pairs.
 The more general snoopers are more experimental.
 
-## Tools
+## Snoopers
+- raw_section_snooper.py
+  Working towards data for pre-OMOP side DQ.
+  Today, 2024-10-14, it doesn't build a table but prints data from 
+  different XML elements by CCDA Section.
+  - Templates and attributes, mostly OIDs and dates
+  - Entry elements, marked "ENTRY", and not much else??
+    Sometimes you see data split into two entries. Need to look closer
+    as to why and what useful information mibht be at this level.
+  - Code elements within the entry, marked "ENTRY-CODE", with and OID,
+    vocabulary name, and code.
+  - Value elements also within the entry, marked "ENTRY-VALUE",
+    with attributes type, value and unit.
+  
+  
+- vocab_snooper.py 
+  Creates files for JHU vocabulary crosswalk table creation
+  - vocab_discovered_codes.csv and vocab_discovered_codes_expanded.csv.
+  It basically looks for elements with a codeSystem attribute and reports
+  that along with a code it finds there. The expanded version kkkj
+
+## Other tools and files
+
+- vocab_map_file.py DEPRECATED,to be deleted.
+  An early hack with OIDs and concepts map.
+- vocab_maps.py
+    Utility functions for reading different vocabular files including:
+  - oid.csv
+    A list of OIDs and related vocabularies
+  - omop_concept_files (CONCEPT.csv?)
+  - CONCEPT_RELATIONSHIP.csv
+    The OMOP table that relates concepts in many ways.
+  - SOURCE_TO_CONCEPT_MAP.csv 
+    The rarely used OMOP table, often empty.
+  
+- xml_ns.py
+    A short python file with a dictionary of namespace abbreviations
+    for passing to the lxml functions.
+
+## Deprecated Snooper
+Don't delete these just yet. Their may be some value yet to be mined from them.
+
 - section_code_snooper.py
     Driven by a list of sections and their template IDs,
        this code looks for codes found in such a section and lists them.

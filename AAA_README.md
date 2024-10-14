@@ -26,6 +26,8 @@ The more general snoopers are more experimental.
   entry if there's anything useful there.
   Consider comparing codes discovered here with those discovered by the less
   structured vocab_snooper.
+  For development, we should be able to reconcile the OMOP counts with 
+  what comes out here.
   
   
 - vocab_snooper.py 

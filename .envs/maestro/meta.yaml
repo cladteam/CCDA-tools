@@ -5,6 +5,7 @@ source:
   path: ../src
 requirements:
   run:
+  - vim
   - dash-table
   - dash
   - lxml

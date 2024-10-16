@@ -16,7 +16,10 @@ from foundry.transforms import Dataset
 # Define the list with column headers for the DataFrame, sourced from /All of Us-cdb223/Identified: HIN - HIE/CCDA/transform/mapping-reference-files/ccda-value-set-mapping-table
 # for comparision, edit as necessary per requirements.
 columns = [
-    "data_source", "resource", "data_element_path", "data_element_node", 
+    "data_source",
+    "resource",
+    "data_element_path",
+    "data_element_node", 
     "codeSystem", "src_cd", "src_cd_description", "target_concept_id", 
     "target_concept_name", "target_domain_id", "target_vocabulary_id", 
     "target_concept_class_id", "target_standard_concept", "target_concept_code", 

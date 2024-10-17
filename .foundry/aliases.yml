@@ -1,7 +1,11 @@
 ccda_ccd_b1_ambulatory_v2:
   rid: "ri.foundry.main.dataset.240efe95-edd1-4e3f-82cf-c913ee5ec077"
+dq_ccda_snooper_people:
+  rid: "ri.foundry.main.dataset.8cb5366c-e7e2-46ef-af2f-a485269a1a01"
 omop_concept:
   rid: "ri.foundry.main.dataset.831ad30e-a134-41ac-8f68-def86cc8b05c"
+omop_concept_relationship:
+  rid: "ri.foundry.main.dataset.32979be7-c8ce-4dc9-95f0-abd066246215"
 test_output_ds:
   rid: "ri.foundry.main.dataset.01663c58-5c5a-4fcd-953a-7f036b73586c"
 vocab_discovered_codes:

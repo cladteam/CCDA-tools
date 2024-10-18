@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """
 builds a table of code and value
+
+This versio correlates values and codes by path and puts them on the same row.
 """
 
 import os
@@ -13,7 +15,7 @@ import vocab_maps
 import pandas as pd
 from collections import defaultdict
 
-ccda_code_values_columns = [ 'filename', 'section', 'codeSystem', 'code', 
+ccda_code_values_columns = [ 'filename', 'section', 'codeSystem', 'code',
                              'value-type', 'value-unit',
                              'value-value', 'value-code', 'value-codeSystem',  'value-text',
                              'path']
@@ -50,7 +52,7 @@ def snoop_section(tree, filename):
                 for value_tuple in value_tuple_list:
                     new_row = pd.DataFrame([{
                         'filename': filename,
-                        'section': section_template_id, 
+                        'section': section_template_id,
                         'path': code_path,
                         'code': code_ele.get('code'),
                         'codeSystem': code_ele.get('codeSystem'),
@@ -66,7 +68,7 @@ def snoop_section(tree, filename):
 
 
 def main():
-    all_files_df = pd.DataFrame(columns=ccda_code_values_columns)
+
     parser = argparse.ArgumentParser(
         prog='CCDA - OMOP Code Snooper',
         description="finds all code elements and shows what concepts the represent",
@@ -80,7 +82,8 @@ def main():
         file_df = snoop_section(tree, args.filename)
         #pd.set_option('display.max_rows', len(file_df))
         print(file_df)
-    elif args.directory is not None: 
+    elif args.directory is not None:
+        all_files_df = pd.DataFrame(columns=ccda_code_values_columns)
         only_files = [f for f in os.listdir(args.directory) if os.path.isfile(os.path.join(args.directory, f))]
         for filename in (only_files):
             if filename.endswith(".xml"):
@@ -88,7 +91,7 @@ def main():
                 file_df = snoop_section(tree, filename)
                 all_files_df = pd.concat([all_files_df, file_df], ignore_index=True)
         #pd.set_option('display.max_rows', len(all_files_df))
-        print(all_files_df) 
+        print(all_files_df)
         all_files_df.to_csv(f"raw_section_snooper_Chris.csv",
                                 sep=",", header=True, index=False)
     else:

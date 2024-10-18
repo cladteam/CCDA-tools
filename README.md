@@ -38,7 +38,7 @@ The more general snoopers are more experimental.
     section is useful for considering the domain_id routing issue: what  CCDA sections
     produce data for which OMOP domains.
 
-    TODO: this code so far doesn't deal with dates or the  invalid_reason column.
+    TODO: this code so far does not deal with dates or the  invalid_reason column.
 
 ## to run
 - ./section_code_snooper.py

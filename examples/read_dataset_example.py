@@ -16,7 +16,6 @@
 """
 
 from foundry.transforms import Dataset
-foo = 'bar '
 ccda_ccd_b1_ambulatory_v2 = Dataset.get("ccda_ccd_b1_ambulatory_v2")
 ccda_ccd_b1_ambulatory_v2_files = ccda_ccd_b1_ambulatory_v2.files().download()
 

@@ -11,7 +11,6 @@
 
 import argparse
 import re
-#import xml.etree.ElementTree as ET  # https://docs.python.org/3/library/xml.etree.elementtree.html
 import lxml.etree as ET
 from xml_ns import ns
 from vocab_map_file import oid_map

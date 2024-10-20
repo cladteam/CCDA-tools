@@ -68,98 +68,76 @@ conn.execute(trace_ddl)
 conn.execute(snooper_insert)
 conn.execute(trace_insert)
 
-df=conn.execute("""SELECT count(*) as row_ct, count(distinct path) as path_ct
-                FROM snooper
-            """).df()
-print("snooper")
+############################################################################################################3
+
+
+# count SNOOPER
+df=conn.execute("""SELECT count(*) as row_ct, count(distinct path) as d_ct 
+		   FROM snooper """).df()
+print("Snooper")
 print(df)
 print("")
 
-df=conn.execute("""SELECT count(*) as row_ct, count(distinct root_xpath) as path_ct
-                FROM trace
-                WHERE config_type = 'FIELD'
-            """).df()
-print("trace")
+# count TRACE 
+df=conn.execute("""SELECT count(*) as row_ct, count(distinct root_xpath) as d_ct 
+                   FROM trace WHERE config_type = 'FIELD' """).df()
+print("Trace")
 print(df)
 print("")
 
+#################### INNER JOIN ##########
 
-df=conn.execute("""select  count(*) as row_ct, count(distinct path) as path_ct, count(distinct root_xpath) as xpath_ct
-                   from snooper s 
-                   join trace t on  s.path = t.root_xpath  and s.field_tag = t.element_tag
-                """).df()
-print("join on path and field")
+# count JOIN
+df=conn.execute("""SELECT  count(*) as row_ct, count(distinct s.path) as path_ct, count(distinct root_xpath) as xpath_ct 
+		   FROM snooper s join trace t on  s.path = t.root_xpath""").df()
+print("Count INNER join ")
 print(df)
 print("")
 
+# select JOIN
+df=conn.execute("""SELECT  distinct s.path as distinct_same
+		   FROM snooper s join trace t on  s.path = t.root_xpath
+		   ORDER BY root_xpath
+		""").df()
+print("INNER join ")
+print(df)
+print("")
 
-if False:
-    print("======== path ============")
-    df=conn.execute("""SELECT distinct path
-                    FROM snooper
-                """).df()
-    print(df)
-    print(type(df))
-    df=conn.execute("""SELECT distinct root_xpath
-                    FROM trace 
-                """).df()
-    print(df)
-    print(type(df))
+#################### LEFT JOIN ##########
 
-if False:
-    print("======== field/element ============")
-    df=conn.execute("""SELECT distinct  field_tag
-                    FROM snooper
-                """).df()
-    print(df)
-    print(type(df))
-    df=conn.execute("""SELECT distinct element_tag
-                    FROM trace 
-                """).df()
-    print(df)
-    print(type(df))
+# select count only left  JOIN
+df=conn.execute("""SELECT  count(distinct s.path) as left_behind_d, count(s.path) as left_behind
+		   FROM snooper s left join trace t on  s.path = t.root_xpath
+                   WHERE root_xpath is null""").df()
+print("Count LEFT join")
+print(df)
+print("")
 
+# select only left  JOIN  # too long to show
+#df=conn.execute("""SELECT  distinct s.path
+#		   FROM snooper s left join trace t on  s.path = t.root_xpath
+#                   WHERE root_xpath is null""").df()
+#print("LEFT join")
+#print(df)
+#print("")
 
-if False:
-    df=conn.execute("""SELECT distinct path
-                    FROM snooper
-                    LIMIT 10
-                """).df()
-    print(df)
-    print(type(df))
+#################### RIGHT JOIN ##########
+# select count only right  JOIN
+df=conn.execute("""SELECT  count(distinct root_xpath) as only_trace_d, count(root_xpath) as only_trace
+		   FROM snooper s right join trace t on  s.path = t.root_xpath
+                   WHERE s.path is null""").df()
+print("Count RIGHT join")
+print(df)
+print("")
 
-    print("trace")
-    #df=conn.execute("""SELECT distinct root_xpath
-    df=conn.execute("""SELECT distinct *
-                    FROM trace
-                    WHERE config_type = 'FIELD'
-                """).df()
-    print(df)
-    print(type(df))
-
-if True:
-    df=conn.execute("""SELECT distinct concat(path, '/', field_tag)
-                    FROM snooper
-                    LIMIT 10
-                """).df()
-    print(df)
-    print("")
-
-    print("trace")
-    df=conn.execute("""SELECT distinct concat(root_xpath, '/', element_tag)
-                    FROM trace
-                    WHERE config_type = 'FIELD'
-                """).df()
-    print(df)
-
-if False:
-    df=conn.execute("""select distinct s.path, concat(t.root_xpath, t.element_tag)
-                   from snooper s
-                   join trace t on  s.path = t.root_xpath  and s.field_tag = t.element_tag
-                   WHERE t.config_type = 'FIELD'
-                """).df()
-    print("join")
-    print(df.to_string())
+# select only right  JOIN
+df=conn.execute("""SELECT distinct root_xpath
+		   FROM snooper s right join trace t on  s.path = t.root_xpath
+                   WHERE s.path is null
+		   ORDER BY root_xpath""").df()
+print("RIGHT join")
+print(df)
+print("")
 
 
 

@@ -6,6 +6,16 @@ the conversion process from CCDA_OMOP_by_Python in data_driven_parse.py
 (also called by layer_datasets.py), into a duckdb. The snooper creates
 ccda_coverage_snooper.csv and the conversion process creates trace.csv
 
+TODO: need to snoop the header as well!
+#0                 recordTarget/patientRole/id
+#1  recordTarget/patientRole/patient/birthTime
+
+TODO: need to filter the trace for things we won't use.
+This also filters the substanceAdministraton. We know we'll ultimtely get that, but not doing so currently.
+I'm trying to match the trace and snoop with work as it stands. Still down to jus 25/80! 
+awk -F, '{print $3}'  ccda_coverage_snooper.csv | grep -v entryRelationship | grep -v assignedAuthor | grep -v manufacturedProduct | grep -v referenceRange | less | grep -v substanceAdministration | grep -v "observation/id" | grep -v "organizer/effectiveTime" | grep -v "entry/act"
+
+
 """
 import duckdb
 import pandas as pd
@@ -80,7 +90,8 @@ print("")
 
 # count TRACE 
 df=conn.execute("""SELECT count(*) as row_ct, count(distinct root_xpath) as d_ct 
-                   FROM trace WHERE config_type = 'FIELD' """).df()
+                   FROM trace 
+                   WHERE config_type = 'FIELD' AND attribute_value is not null """).df()
 print("Trace")
 print(df)
 print("")
@@ -89,16 +100,17 @@ print("")
 
 # count JOIN
 df=conn.execute("""SELECT  count(*) as row_ct, count(distinct s.path) as path_ct, count(distinct root_xpath) as xpath_ct 
-		   FROM snooper s join trace t on  s.path = t.root_xpath""").df()
+                   FROM snooper s join trace t on  s.path = t.root_xpath
+                   WHERE config_type = 'FIELD' AND attribute_value is not null """).df()
 print("Count INNER join ")
 print(df)
 print("")
 
 # select JOIN
 df=conn.execute("""SELECT  distinct s.path as distinct_same
-		   FROM snooper s join trace t on  s.path = t.root_xpath
-		   ORDER BY root_xpath
-		""").df()
+                   FROM snooper s join trace t on  s.path = t.root_xpath
+                   WHERE config_type = 'FIELD' AND attribute_value is not null
+                   ORDER BY root_xpath """).df()
 print("INNER join ")
 print(df)
 print("")
@@ -107,8 +119,9 @@ print("")
 
 # select count only left  JOIN
 df=conn.execute("""SELECT  count(distinct s.path) as left_behind_d, count(s.path) as left_behind
-		   FROM snooper s left join trace t on  s.path = t.root_xpath
-                   WHERE root_xpath is null""").df()
+                   FROM snooper s left join trace t on  s.path = t.root_xpath
+                   WHERE root_xpath is null AND config_type = 'FIELD' AND attribute_value is not null
+""").df()
 print("Count LEFT join")
 print(df)
 print("")
@@ -116,7 +129,8 @@ print("")
 # select only left  JOIN  # too long to show
 #df=conn.execute("""SELECT  distinct s.path
 #		   FROM snooper s left join trace t on  s.path = t.root_xpath
-#                   WHERE root_xpath is null""").df()
+#                  WHERE root_xpath is null
+#                     AND config_type = 'FIELD' AND attribute_value is not null """).df()
 #print("LEFT join")
 #print(df)
 #print("")
@@ -124,18 +138,22 @@ print("")
 #################### RIGHT JOIN ##########
 # select count only right  JOIN
 df=conn.execute("""SELECT  count(distinct root_xpath) as only_trace_d, count(root_xpath) as only_trace
-		   FROM snooper s right join trace t on  s.path = t.root_xpath
-                   WHERE s.path is null""").df()
+                   FROM snooper s right join trace t on  s.path = t.root_xpath
+                   WHERE s.path is null
+                   AND config_type = 'FIELD' 
+                   AND attribute_value is not null
+""").df()
 print("Count RIGHT join")
 print(df)
 print("")
 
 # select only right  JOIN
 df=conn.execute("""SELECT distinct root_xpath
-		   FROM snooper s right join trace t on  s.path = t.root_xpath
-                   WHERE s.path is null
-		   ORDER BY root_xpath""").df()
+                   FROM snooper s right join trace t on  s.path = t.root_xpath
+                   WHERE s.path is null AND config_type = 'FIELD' AND attribute_value is not null
+                   ORDER BY root_xpath""").df()
 print("RIGHT join")
+print("This is stuff in the trace that is NOT in the snoop??")
 print(df)
 print("")
 

@@ -1,6 +1,6 @@
 import argparse
 import re
-import lxml.etree as ET  # Switched to lxml for better XML parsing
+import lxml.etree as ET
 import os
 from xml_ns import ns
 from vocab_map_file import oid_map
@@ -8,6 +8,7 @@ import vocab_maps
 import pandas as pd
 from pathlib import Path
 from foundry.transforms import Dataset
+from collections import defaultdict
 
 # mamba install -y -q lxml
 
@@ -16,11 +17,8 @@ from foundry.transforms import Dataset
 # Define the list with column headers for the DataFrame, sourced from /All of Us-cdb223/Identified: HIN - HIE/CCDA/transform/mapping-reference-files/ccda-value-set-mapping-table
 # for comparision, edit as necessary per requirements.
 columns = [
-    "data_source",
-    "resource",
-    "data_element_path",
-    "data_element_node", 
-    "codeSystem", "src_cd", "src_cd_description", "target_concept_id", 
+    "data_source", "resource", "data_element_path", "data_element_node", 
+    "codeSystem", "src_cd", "src_cd_description","src_cd_count", "target_concept_id", 
     "target_concept_name", "target_domain_id", "target_vocabulary_id", 
     "target_concept_class_id", "target_standard_concept", "target_concept_code", 
     "target_tbl_column_name", "notes"
@@ -53,7 +51,6 @@ def snoop_for_code_tag(tree, expr, ns, concept_df, vocab_codes):
     Appends the extracted information to the given vocab_codes DataFrame.
     """
     section_elements = tree.findall(expr, ns)
-
     for section_element in section_elements:
         # Extract attributes
         data_element_node = re.sub(r'{.*}', '', section_element.tag)
@@ -72,16 +69,24 @@ def snoop_for_code_tag(tree, expr, ns, concept_df, vocab_codes):
             'src_cd_description': src_cd_description,
 
         }])
+        count_dict[(codeSystem,src_cd)] += 1
         # Concatenate the new row with the DataFrame
         combined_df = pd.concat([vocab_codes, new_row], ignore_index=True)
-
+        if count_dict[(codeSystem,src_cd)] = 0:
+            vocab_codes = pd.concat([vocab_codes, new_row], ignore_index=True)
+        else
+            pass
         # Check if the new row already exists in the DataFrame
         if combined_df.duplicated().iloc[-1]:
+            print(combined_df.iloc[-1])
+            existing_row = combined_df.iloc[0].index[0]
+            duplicate_index = existing_row.index[0]
+            vocab_codes.at[duplicate_index, 'src_cd_count'] += 1
             pass
             #print("Duplicate row exists. Skipping insertion.")
         else:
             vocab_codes = pd.concat([vocab_codes, new_row], ignore_index=True)
-
+        ###
     return vocab_codes
 
 
@@ -158,25 +163,25 @@ def main():
     # Clean up the DataFrame
     short_vocabs = all_vocab_codes[['src_cd','codeSystem']].drop_duplicates().sort_values(by='codeSystem')
     #short_vocabs = all_vocab_codes.drop_duplicates().sort_values(by='codeSystem')
-
+###
     # Output to CSV
-    all_vocab_codes.to_csv('/foundry/outputs/vocab_discovered_codes_expanded.csv', index=False)
-    short_vocabs.to_csv('/foundry/outputs/vocab_discovered_codes.csv', index=False)
+    #all_vocab_codes.to_csv('/foundry/outputs/vocab_discovered_codes_expanded.csv', index=False)
+    #short_vocabs.to_csv('/foundry/outputs/vocab_discovered_codes.csv', index=False)
     
-    vocab_discovered_codescsv = Dataset.get("vocab_discovered_codescsv")
-    vocab_discovered_codescsv.upload_file("/foundry/outputs/vocab_discovered_codes.csv")
+    #vocab_discovered_codescsv = Dataset.get("vocab_discovered_codescsv")
+    #vocab_discovered_codescsv.upload_file("/foundry/outputs/vocab_discovered_codes.csv")
 
-    vocab_discovered_codes_expandedcsv = Dataset.get("vocab_discovered_codes_expandedcsv")
-    vocab_discovered_codes_expandedcsv.upload_file("/foundry/outputs/vocab_discovered_codes_expanded.csv")
+    #vocab_discovered_codes_expandedcsv = Dataset.get("vocab_discovered_codes_expandedcsv")
+    #vocab_discovered_codes_expandedcsv.upload_file("/foundry/outputs/vocab_discovered_codes_expanded.csv")
 
     # Output as Dataset
-    vocab_discovered_codes_expanded = Dataset.get("vocab_discovered_codes_expanded")
-    vocab_discovered_codes_expanded.write_table(all_vocab_codes)
+    #vocab_discovered_codes_expanded = Dataset.get("vocab_discovered_codes_expanded")
+    #vocab_discovered_codes_expanded.write_table(all_vocab_codes)
     
-    vocab_discovered_codes = Dataset.get("vocab_discovered_codes")
-    vocab_discovered_codes.write_table(short_vocabs)
-
-    # print(short_vocabs)
+    #vocab_discovered_codes = Dataset.get("vocab_discovered_codes")
+    #vocab_discovered_codes.write_table(short_vocabs)
+###
+    print(short_vocabs)
 
 
 if __name__ == '__main__':
